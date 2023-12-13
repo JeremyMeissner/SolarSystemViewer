@@ -20,32 +20,41 @@ int main()
         return EXIT_FAILURE;
     }
 
-    // TODO : create your system
+    // ==== Create system here
 
-    int i = 0;
+    planet_t sun = create_planet(M_SUN, (vec2){SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2});
+
+    planet_t earth = create_planet(M_EARTH, (vec2){50, 50});
+
+    planet_t planets[1] = {earth};
+
+    system_t solarSytem =
+        {
+            .star = sun,
+            .nb_planets = 1, // because only earth for now
+            .planets = planets};
+    // ====
 
     while (true)
     {
         gfx_present(ctxt);
-        // TODO : draw the current state of your system
+
+        /// ==== Update system here
         gfx_clear(ctxt, COLOR_BLACK);
 
-        draw_full_circle(ctxt, 50 + i, 50 + i, 50, MAKE_COLOR(255, 0, 0));
+        update_system(&solarSytem, 10);
 
-        i = i + 50;
+        show_system(ctxt, solarSytem);
 
-        // TODO : update your system
+        // ====
+
         if (gfx_keypressed() == SDLK_ESCAPE)
         {
             break;
         }
-        if (i >= SCREEN_HEIGHT)
-        {
-            i = 0;
-        }
     }
 
-    // TODO : Free your system
+    // free_system(&solarSytem);
     gfx_destroy(ctxt);
     return EXIT_SUCCESS;
 }

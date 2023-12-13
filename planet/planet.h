@@ -4,6 +4,9 @@
 #include "../vec2/vec2.h"
 #include "../gfx/gfx.h"
 
+#define M_SUN 1.989e30
+#define M_EARTH 5.972e24
+
 typedef struct _planet
 {
     double mass;
@@ -22,7 +25,8 @@ typedef struct _system
 // it's rather a hint of what you should have.
 planet_t create_planet(double mass, vec2 pos);
 system_t create_system(double delta_t);
-void show_system(struct gfx_context_t *ctxt, system_t *system);
+void show_planet(struct gfx_context_t *ctxt, planet_t planet, bool isSun);
+void show_system(struct gfx_context_t *ctxt, system_t system);
 void update_system(system_t *system, double delta_t);
 void free_system(system_t *system);
 

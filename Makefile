@@ -3,7 +3,6 @@ CC:=gcc
 # The flags passed to the compiler
 CFLAGS:=-g -Ofast -Wall -Wextra -fsanitize=address -I/opt/homebrew/include
 # The flags passed to the linker
-# Add the SDL2 library path with -L/opt/homebrew/lib
 LDFLAGS:=-lm -L/opt/homebrew/lib -lSDL2
 # Path to the lib Vec2
 VPATH:=vec2 gfx planet
