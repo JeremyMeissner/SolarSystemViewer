@@ -8,6 +8,7 @@
 
 #define SCREEN_WIDTH 1000
 #define SCREEN_HEIGHT 1000
+#define NUMBER_OF_PLANETS 5
 
 int main()
 {
@@ -24,14 +25,18 @@ int main()
 
     planet_t sun = create_planet(M_SUN, (vec2){SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2});
 
-    planet_t earth = create_planet(M_EARTH, (vec2){50, 50});
+    planet_t ash_twin = create_planet(M_ASH_TWIN, (vec2){(int)((SCREEN_WIDTH / 6.0) * 1.0),50});
+    planet_t timber_hearth = create_planet(M_TIMBER_HEARTH, (vec2){(int)((SCREEN_WIDTH / 6.0) * 2.0),50});
+    planet_t brittle_hollow = create_planet(M_BRITTLE_HOLLOW, (vec2){(int)((SCREEN_WIDTH / 6.0) * 3.0),50});
+    planet_t giants_deep = create_planet(M_GIANTS_DEEP, (vec2){(int)((SCREEN_WIDTH / 6.0) * 4.0),50});
+    planet_t dark_bramble = create_planet(M_DARK_BRAMBLE, (vec2){(int)((SCREEN_WIDTH / 6.0) * 5.0),50});
 
-    planet_t planets[1] = {earth};
+    planet_t planets[NUMBER_OF_PLANETS] = {ash_twin,timber_hearth,brittle_hollow,giants_deep,dark_bramble};
 
     system_t solarSytem =
         {
             .star = sun,
-            .nb_planets = 1, // because only earth for now
+            .nb_planets = NUMBER_OF_PLANETS,
             .planets = planets};
     // ====
 

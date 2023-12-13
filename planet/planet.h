@@ -4,8 +4,57 @@
 #include "../vec2/vec2.h"
 #include "../gfx/gfx.h"
 
-#define M_SUN 1.989e30
-#define M_EARTH 5.972e24
+//Planets data source : https://nssdc.gsfc.nasa.gov/planetary/factsheet/ (un peu stylé)
+//Sun data source : https://nssdc.gsfc.nasa.gov/planetary/factsheet/sunfact.html
+
+//In KG
+#define M_SUN 1.988500e24
+#define M_MOON 0.073e24
+#define M_EARTH 5.97e24
+#define M_JUPITER 1898e24
+#define M_MERCURY 0.330e24
+#define M_MARS 0.642e24
+#define M_NEPTUNE 102e24
+
+//In KM
+#define D_SUN 0
+#define D_MOON 0.384e6 //Note that the distance is not from the sun but from the surface of the earth
+#define D_EARTH 149.6e6
+#define D_JUPITER 778.5e6
+#define D_MERCURY 57.9e6
+#define D_MARS 228e6
+#define D_NEPTUNE 4515e6
+
+//Outer Wilds Mode
+
+/*
+Quick guide
+Sun = Sun
+Moon = Atlerock
+Earth = Timber Hearth
+Jupiter = Giant's Deep
+Mercury = Ash twin
+Mars = Brittle Hollow
+Neptune = Dark Bramble
+*/
+
+//In KG
+#define M_SUN 1.988500e24
+#define M_ATLEROCK 0.073e24
+#define M_TIMBER_HEARTH 5.97e24
+#define M_GIANTS_DEEP 1898e24
+#define M_ASH_TWIN 0.330e24
+#define M_BRITTLE_HOLLOW 0.642e24
+#define M_DARK_BRAMBLE 102e24
+
+//In KM
+#define D_SUN 0
+#define D_ALTEROCK 0.384e6 //Note that this distance is not from the sun but from the surface of the timber hearth
+#define D_TIMBER_HEARTH 149.6e6
+#define D_GIANTS_DEEP 778.5e6
+#define D_ASH_TWIN 57.9e6
+#define D_BRITTLE_HOLLOW 228e6
+#define D_DARK_BRAMBLE 4515e6
 
 typedef struct _planet
 {
