@@ -59,6 +59,7 @@ Neptune = Dark Bramble
 typedef struct _planet
 {
     double mass;
+    int radius;
     vec2 pos;      // x(t)
     vec2 prec_pos; // x(t - dt)
 } planet_t;
@@ -72,15 +73,13 @@ typedef struct _system
 
 // Those function are not mandatory to implement,
 // it's rather a hint of what you should have.
-planet_t create_planet(double mass, double starting_distance_from_sun, int screenWidth, int screenHeight);
+planet_t create_planet(double mass);
 system_t create_system(double delta_t);
 
 void show_planet(struct gfx_context_t *ctxt, planet_t planet, bool isSun);
 void show_system(struct gfx_context_t *ctxt, system_t system);
 void update_system(system_t *system, double delta_t);
 void free_system(system_t *system);
-
-/*REMOVE THIS*/
-//double power_scale(double planet_mass, double smallest_mass, double biggest_mass, double min_output_size, double max_output_size, double power);
+void place_planet(planet_t * planet,double starting_distance_from_sun, int widthOfSystem, int heightOfSystem);
 
 #endif

@@ -8,7 +8,7 @@
 
 #define SCREEN_WIDTH 1000
 #define SCREEN_HEIGHT 1000
-#define NUMBER_OF_PLANETS 5
+#define NUMBER_OF_PLANETS 6
 
 int main()
 {
@@ -23,13 +23,20 @@ int main()
 
     // ==== Create system here
 
-    planet_t sun = create_planet(M_SUN, D_SUN,SCREEN_WIDTH,SCREEN_HEIGHT);
-
-    planet_t ash_twin = create_planet(M_ASH_TWIN,D_ASH_TWIN,SCREEN_WIDTH,SCREEN_HEIGHT);
-    planet_t timber_hearth = create_planet(M_TIMBER_HEARTH, D_TIMBER_HEARTH,SCREEN_WIDTH,SCREEN_HEIGHT);
-    planet_t brittle_hollow = create_planet(M_BRITTLE_HOLLOW, D_BRITTLE_HOLLOW,SCREEN_WIDTH,SCREEN_HEIGHT);
-    planet_t giants_deep = create_planet(M_GIANTS_DEEP,D_GIANTS_DEEP,SCREEN_WIDTH,SCREEN_HEIGHT);
-    planet_t dark_bramble = create_planet(M_DARK_BRAMBLE, D_DARK_BRAMBLE,SCREEN_WIDTH,SCREEN_HEIGHT);
+    planet_t sun = create_planet(M_SUN);
+    planet_t ash_twin = create_planet(M_ASH_TWIN);
+    planet_t timber_hearth = create_planet(M_TIMBER_HEARTH);
+    planet_t brittle_hollow = create_planet(M_BRITTLE_HOLLOW);
+    planet_t giants_deep = create_planet(M_GIANTS_DEEP);
+    planet_t dark_bramble = create_planet(M_DARK_BRAMBLE);
+    
+    //The planets can only be placed after all the planets have been initialized because we need the size of the sun and the farthest one
+    place_planet(&sun,D_SUN,SCREEN_WIDTH -dark_bramble.radius,SCREEN_HEIGHT);
+    place_planet(&ash_twin,D_ASH_TWIN,SCREEN_WIDTH -dark_bramble.radius,SCREEN_HEIGHT);
+    place_planet(&timber_hearth,D_TIMBER_HEARTH,SCREEN_WIDTH -dark_bramble.radius,SCREEN_HEIGHT);
+    place_planet(&brittle_hollow,D_BRITTLE_HOLLOW,SCREEN_WIDTH -dark_bramble.radius,SCREEN_HEIGHT);
+    place_planet(&giants_deep,D_GIANTS_DEEP,SCREEN_WIDTH -dark_bramble.radius,SCREEN_HEIGHT);
+    place_planet(&dark_bramble,D_DARK_BRAMBLE,SCREEN_WIDTH -dark_bramble.radius,SCREEN_HEIGHT);
 
     planet_t planets[NUMBER_OF_PLANETS] = {ash_twin,timber_hearth,brittle_hollow,giants_deep,dark_bramble};
 

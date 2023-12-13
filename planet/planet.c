@@ -29,20 +29,25 @@ double normalize(double value, double min_val, double max_val,double min_range, 
     return min_range + ((value - min_val) / (max_val - min_val) * (max_range-min_range));
 }
 
-vec2 place_planet(double distanceFromSun, int widthOfSystem,int heightOfSystem){
+void place_planet(planet_t * planet,double starting_distance_from_sun, int widthOfSystem, int heightOfSystem){
     int avaibleArea = widthOfSystem/2;
     int y = heightOfSystem / 2;
     //We can now place the planets on the same y axis between the sun and the edge of the system
     //int x = (int)normalize(distanceFromSun,0,D_NEPTUNE,avaibleArea,widthOfSystem);
-    int x = (int)power_scale(distanceFromSun,0,D_NEPTUNE,avaibleArea,widthOfSystem,0.3);
-    return vec2_create(x,y);
+    int x = (int)power_scale(starting_distance_from_sun,0,D_NEPTUNE,avaibleArea,widthOfSystem,0.3);
+    vec2 pos = vec2_create(x,y);
+    planet->pos = pos;
 }
 
-planet_t create_planet(double mass, double starting_distance_from_sun, int screenWidth, int screenHeight)
+planet_t create_planet(double mass)
 {
-    vec2 startPos = place_planet(starting_distance_from_sun,screenWidth,screenHeight);
+    vec2 startPos = vec2_create(0,0);
+    //You an play with the power factor to controll the ratio between the size of the biggest element and the planets
+    double power_factor = 0.25;
+    int planetRadius = power_scale(mass,M_MOON,M_SUN,MIN_DISPLAY_PLANET_SIZE,MAX_DISPLAY_PLANET_SIZE,power_factor);
     return (planet_t){
         .mass = mass,
+        .radius = planetRadius,
         .pos = startPos,
         .prec_pos = startPos};
 }
@@ -51,13 +56,7 @@ void show_planet(struct gfx_context_t *ctxt, planet_t planet, bool isStar)
 {
     uint32_t color = isStar ? MAKE_COLOR(255, 255, 0) : MAKE_COLOR(0, 0, 255);
 
-    //You an play with the power factor to controll the ratio between the size of the biggest element and the planets
-    double power_factor = 0.25;
-    //This computation should only happen at the start but its here for now
-    double planet_size = power_scale(planet.mass,M_MOON,M_SUN,MIN_DISPLAY_PLANET_SIZE,MAX_DISPLAY_PLANET_SIZE,power_factor);
-    uint32_t radius = (int)planet_size;
-
-    draw_full_circle(ctxt, planet.pos.x, planet.pos.y, radius, color);
+    draw_full_circle(ctxt, planet.pos.x, planet.pos.y, planet.radius, color);
 }
 
 void show_system(struct gfx_context_t *ctxt, system_t system)
