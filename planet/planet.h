@@ -72,7 +72,7 @@ typedef struct _system
 
 // Those function are not mandatory to implement,
 // it's rather a hint of what you should have.
-planet_t create_planet(double mass, vec2 pos);
+planet_t create_planet(double mass, double starting_distance_from_sun, int screenWidth, int screenHeight);
 system_t create_system(double delta_t);
 
 void show_planet(struct gfx_context_t *ctxt, planet_t planet, bool isSun);

@@ -23,13 +23,13 @@ int main()
 
     // ==== Create system here
 
-    planet_t sun = create_planet(M_SUN, (vec2){SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2});
+    planet_t sun = create_planet(M_SUN, D_SUN,SCREEN_WIDTH,SCREEN_HEIGHT);
 
-    planet_t ash_twin = create_planet(M_ASH_TWIN, (vec2){(int)((SCREEN_WIDTH / 6.0) * 1.0),50});
-    planet_t timber_hearth = create_planet(M_TIMBER_HEARTH, (vec2){(int)((SCREEN_WIDTH / 6.0) * 2.0),50});
-    planet_t brittle_hollow = create_planet(M_BRITTLE_HOLLOW, (vec2){(int)((SCREEN_WIDTH / 6.0) * 3.0),50});
-    planet_t giants_deep = create_planet(M_GIANTS_DEEP, (vec2){(int)((SCREEN_WIDTH / 6.0) * 4.0),50});
-    planet_t dark_bramble = create_planet(M_DARK_BRAMBLE, (vec2){(int)((SCREEN_WIDTH / 6.0) * 5.0),50});
+    planet_t ash_twin = create_planet(M_ASH_TWIN,D_ASH_TWIN,SCREEN_WIDTH,SCREEN_HEIGHT);
+    planet_t timber_hearth = create_planet(M_TIMBER_HEARTH, D_TIMBER_HEARTH,SCREEN_WIDTH,SCREEN_HEIGHT);
+    planet_t brittle_hollow = create_planet(M_BRITTLE_HOLLOW, D_BRITTLE_HOLLOW,SCREEN_WIDTH,SCREEN_HEIGHT);
+    planet_t giants_deep = create_planet(M_GIANTS_DEEP,D_GIANTS_DEEP,SCREEN_WIDTH,SCREEN_HEIGHT);
+    planet_t dark_bramble = create_planet(M_DARK_BRAMBLE, D_DARK_BRAMBLE,SCREEN_WIDTH,SCREEN_HEIGHT);
 
     planet_t planets[NUMBER_OF_PLANETS] = {ash_twin,timber_hearth,brittle_hollow,giants_deep,dark_bramble};
 

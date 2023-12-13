@@ -24,13 +24,27 @@ double power_scale(double planet_mass, double smallest_mass, double biggest_mass
     double scaled_value = min_output_size + pow((planet_mass - smallest_mass) / (biggest_mass - smallest_mass), power) * (max_output_size - min_output_size);
     return scaled_value;
 }
+/* A method that scales proportionnally values to fit in a specific range (almost impossible to use with scales of planets)*/
+double normalize(double value, double min_val, double max_val,double min_range, double max_range) {
+    return min_range + ((value - min_val) / (max_val - min_val) * (max_range-min_range));
+}
 
-planet_t create_planet(double mass, vec2 pos)
+vec2 place_planet(double distanceFromSun, int widthOfSystem,int heightOfSystem){
+    int avaibleArea = widthOfSystem/2;
+    int y = heightOfSystem / 2;
+    //We can now place the planets on the same y axis between the sun and the edge of the system
+    //int x = (int)normalize(distanceFromSun,0,D_NEPTUNE,avaibleArea,widthOfSystem);
+    int x = (int)power_scale(distanceFromSun,0,D_NEPTUNE,avaibleArea,widthOfSystem,0.3);
+    return vec2_create(x,y);
+}
+
+planet_t create_planet(double mass, double starting_distance_from_sun, int screenWidth, int screenHeight)
 {
+    vec2 startPos = place_planet(starting_distance_from_sun,screenWidth,screenHeight);
     return (planet_t){
         .mass = mass,
-        .pos = pos,
-        .prec_pos = pos};
+        .pos = startPos,
+        .prec_pos = startPos};
 }
 
 void show_planet(struct gfx_context_t *ctxt, planet_t planet, bool isStar)
