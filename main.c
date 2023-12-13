@@ -40,6 +40,13 @@ int main()
             .planets = planets};
     // ====
 
+
+    /* DEBUG PLAYGROUND START */
+
+    // You can put stuff with printf's here before the simulation starts
+
+    /* DEBUG PLAYGROUND END */
+
     while (true)
     {
         gfx_present(ctxt);

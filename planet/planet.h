@@ -8,7 +8,7 @@
 //Sun data source : https://nssdc.gsfc.nasa.gov/planetary/factsheet/sunfact.html
 
 //In KG
-#define M_SUN 1.988500e24
+#define M_SUN 1988500e24
 #define M_MOON 0.073e24
 #define M_EARTH 5.97e24
 #define M_JUPITER 1898e24
@@ -39,7 +39,7 @@ Neptune = Dark Bramble
 */
 
 //In KG
-#define M_SUN 1.988500e24
+#define M_SUN 1988500e24
 #define M_ATLEROCK 0.073e24
 #define M_TIMBER_HEARTH 5.97e24
 #define M_GIANTS_DEEP 1898e24
@@ -74,9 +74,13 @@ typedef struct _system
 // it's rather a hint of what you should have.
 planet_t create_planet(double mass, vec2 pos);
 system_t create_system(double delta_t);
+
 void show_planet(struct gfx_context_t *ctxt, planet_t planet, bool isSun);
 void show_system(struct gfx_context_t *ctxt, system_t system);
 void update_system(system_t *system, double delta_t);
 void free_system(system_t *system);
+
+/*REMOVE THIS*/
+//double power_scale(double planet_mass, double smallest_mass, double biggest_mass, double min_output_size, double max_output_size, double power);
 
 #endif
