@@ -46,7 +46,7 @@ int main()
         /// ==== Update system here
         gfx_clear(ctxt, COLOR_BLACK);
 
-        update_system(&solarSytem, 1e9);
+        // update_system(&solarSytem, 1e9);
 
         show_system(ctxt, solarSytem);
 
