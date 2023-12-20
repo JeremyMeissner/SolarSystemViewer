@@ -8,6 +8,7 @@
 
 #define SCREEN_WIDTH 1000
 #define SCREEN_HEIGHT 1000
+#define NBR_PLANETS 4
 
 int main()
 {
@@ -22,19 +23,22 @@ int main()
 
     // ==== Create system here
 
-    planet_t sun = create_planet(M_SUN, (vec2){SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2});
+    planet_t sun = create_planet(M_SUN, (vec2){D_SUN_TO_SUN, 0}, SUN_ECCENTRICITY);
+    planet_t earth = create_planet(M_EARTH, (vec2){D_EARTH_TO_SUN, 0}, EARTH_ECCENTRICITY);
+    planet_t jupiter = create_planet(M_JUPITER, (vec2){D_JUPITER_TO_SUN, 0}, JUPITER_ECCENTRICITY);
+    planet_t neptune = create_planet(M_NEPTUNE, (vec2){D_NEPTUNE_TO_SUN, 0}, NEPTUNE_ECCENTRICITY);
 
-    planet_t earth = create_planet(M_EARTH, (vec2){50, 50});
-
-    planet_t planets[1] = {earth};
+    planet_t planets[NBR_PLANETS] = {sun, earth, jupiter, neptune};
 
     system_t solarSytem =
         {
-            .star = sun,
-            .nb_planets = 1, // because only earth for now
-            .planets = planets};
+            .nb_planets = NBR_PLANETS,
+            .planets = planets,
+        };
+
     // ====
 
+    initialize_system(&solarSytem);
     while (true)
     {
         gfx_present(ctxt);
@@ -42,7 +46,7 @@ int main()
         /// ==== Update system here
         gfx_clear(ctxt, COLOR_BLACK);
 
-        update_system(&solarSytem, 10);
+        update_system(&solarSytem, 1e9);
 
         show_system(ctxt, solarSytem);
 

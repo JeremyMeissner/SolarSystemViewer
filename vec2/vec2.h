@@ -36,6 +36,8 @@ bool vec2_is_approx_equal(vec2 lhs, vec2 rhs, double eps);
 
 coordinates vec2_to_coordinates(vec2 v, uint32_t width, uint32_t height);
 
+vec2 vec2_scale_distance_to_screen(vec2 pos, uint32_t screen_width, double max_distance);
+
 void vec2_print(vec2 v);
 
 #endif

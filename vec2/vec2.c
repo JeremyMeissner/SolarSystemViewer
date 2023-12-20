@@ -98,9 +98,22 @@ coordinates vec2_to_coordinates(vec2 v, uint32_t width, uint32_t height)
 {
     coordinates result;
     result.column = ((v.x + 1) / 2 * (width - 1)) + 0.5;
-
     result.row = ((v.y + 1) / 2 * (height - 1)) + 0.5;
+
     return result;
+}
+
+// Convert astronomical distance to screen coordinates. ONLY FOR THE X AXIS |!|
+vec2 vec2_scale_distance_to_screen(vec2 pos, uint32_t screen_width, double max_distance)
+{
+    // Scale the distance to fit the screen width
+    double scaled_distance = (pos.x / max_distance) * (screen_width / 2.0);
+
+    // Create a 2D vector with the scaled distance
+    // Assuming the sun is at the center of the screen, so we only need one dimension
+    vec2 screen_position = vec2_create(scaled_distance, 0.0);
+
+    return screen_position;
 }
 
 /// Print a vector in the standard output.
