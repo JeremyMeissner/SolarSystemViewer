@@ -63,8 +63,6 @@ vec2 convert_planet_pos_to_display_pos(int displayWidth,int displayHeight,vec2 p
     double system_size = DISTANCE_NEPTUNE * 2.0;
     double x = (int)power_scale(planet_pos.x,0,system_size,0,displayWidth,1);
     double y = (int)power_scale(planet_pos.y,0,system_size,0,displayHeight,1);
-    printf("\nsystem size : %f  planet_pos: %f,%f\n",system_size,planet_pos.x,planet_pos.y);
-    printf("Screen: %dx%d \nPos : x %f , y %f \n",displayWidth,displayHeight,x,y);
     return vec2_create(x,y);
 }
 
@@ -84,8 +82,8 @@ void update_system(system_t *system, double delta_t)
     //We dont want to affect the sun for now
     for (uint32_t i = 1; i < system->nb_planets; i++)
     {
-        system->planets[i].pos.x += 100000;
-        system->planets[i].pos.y += 100000;
+        system->planets[i].pos.x += 10000;
+        system->planets[i].pos.y += 10000;
         //planet.pos = vec2_create(planet.pos.x + 1234, planet.pos.y + 1234);
     }
 }
