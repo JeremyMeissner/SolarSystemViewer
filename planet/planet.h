@@ -66,7 +66,6 @@ typedef struct _planet
 
 typedef struct _system
 {
-    planet_t star;       // ex. The sun
     uint32_t nb_planets; // The number of orbiting planets
     planet_t *planets;   // An array of orbiting planets
 } system_t;
@@ -76,7 +75,7 @@ typedef struct _system
 planet_t create_planet(double mass);
 system_t create_system(double delta_t);
 
-void show_planet(struct gfx_context_t *ctxt, planet_t planet, bool isSun);
+void show_planet(struct gfx_context_t *ctxt, planet_t planet);
 void show_system(struct gfx_context_t *ctxt, system_t system);
 void update_system(system_t *system, double delta_t);
 void free_system(system_t *system);

@@ -52,27 +52,24 @@ planet_t create_planet(double mass)
         .prec_pos = startPos};
 }
 
-void show_planet(struct gfx_context_t *ctxt, planet_t planet, bool isStar)
+void show_planet(struct gfx_context_t *ctxt, planet_t planet)
 {
-    uint32_t color = isStar ? MAKE_COLOR(255, 255, 0) : MAKE_COLOR(0, 0, 255);
+    uint32_t color = MAKE_COLOR(255, 0, 255);
 
     draw_full_circle(ctxt, planet.pos.x, planet.pos.y, planet.radius, color);
 }
 
 void show_system(struct gfx_context_t *ctxt, system_t system)
 {
-    show_planet(ctxt, system.star, true);
-
     for (uint32_t i = 0; i < system.nb_planets; i++)
     {
         planet_t planet = system.planets[i];
-        show_planet(ctxt, planet, false);
+        show_planet(ctxt, planet);
     }
 }
 
 void update_system(system_t *system, double delta_t)
 {
-    // Help
     for (uint32_t i = 0; i < system->nb_planets; i++)
     {
         planet_t planet = system->planets[i];

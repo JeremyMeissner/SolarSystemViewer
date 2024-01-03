@@ -38,11 +38,10 @@ int main()
     place_planet(&giants_deep,D_GIANTS_DEEP,SCREEN_WIDTH -dark_bramble.radius,SCREEN_HEIGHT);
     place_planet(&dark_bramble,D_DARK_BRAMBLE,SCREEN_WIDTH -dark_bramble.radius,SCREEN_HEIGHT);
 
-    planet_t planets[NUMBER_OF_PLANETS] = {ash_twin,timber_hearth,brittle_hollow,giants_deep,dark_bramble};
+    planet_t planets[NUMBER_OF_PLANETS] = {sun,ash_twin,timber_hearth,brittle_hollow,giants_deep,dark_bramble};
 
     system_t solarSytem =
         {
-            .star = sun,
             .nb_planets = NUMBER_OF_PLANETS,
             .planets = planets};
     // ====
