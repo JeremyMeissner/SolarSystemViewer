@@ -29,25 +29,25 @@ double normalize(double value, double min_val, double max_val,double min_range, 
     return min_range + ((value - min_val) / (max_val - min_val) * (max_range-min_range));
 }
 
-void place_planet(planet_t * planet,double starting_distance_from_sun, int widthOfSystem, int heightOfSystem){
-    int avaibleArea = widthOfSystem/2;
-    int y = heightOfSystem / 2;
-    //We can now place the planets on the same y axis between the sun and the edge of the system
-    //int x = (int)normalize(distanceFromSun,0,D_NEPTUNE,avaibleArea,widthOfSystem);
-    int x = (int)power_scale(starting_distance_from_sun,0,D_NEPTUNE,avaibleArea,widthOfSystem,0.3);
-    vec2 pos = vec2_create(x,y);
+void place_planet(planet_t * planet,double starting_distance_from_sun, int displayWidth, int displayHeight){
+    
+    //The 0/0 in the solar system is in the top left corner with the sun in the middle being at y and x at the biggest distance possible which is the distance from neptune
+    vec2 pos = vec2_create(DISTANCE_NEPTUNE + starting_distance_from_sun + DIAMETER_SUN / 2.0,DISTANCE_NEPTUNE);
+    vec2 display_pos = convert_planet_pos_to_display_pos(displayWidth,displayHeight,pos);
+    planet->display_pos = display_pos;
     planet->pos = pos;
 }
 
-planet_t create_planet(double mass)
+planet_t create_planet(double mass,double diameter)
 {
     vec2 startPos = vec2_create(0,0);
     //You an play with the power factor to controll the ratio between the size of the biggest element and the planets
-    double power_factor = 0.25;
-    int planetRadius = power_scale(mass,M_MOON,M_SUN,MIN_DISPLAY_PLANET_SIZE,MAX_DISPLAY_PLANET_SIZE,power_factor);
+    double power_factor = 0.8;
+    double display_diameter = power_scale(diameter,DIAMETER_MOON,DIAMETER_SUN,MIN_DISPLAY_PLANET_SIZE,MAX_DISPLAY_PLANET_SIZE,power_factor);
     return (planet_t){
         .mass = mass,
-        .radius = planetRadius,
+        .diameter = diameter,
+        .display_diameter = display_diameter,
         .pos = startPos,
         .prec_pos = startPos};
 }
@@ -55,13 +55,23 @@ planet_t create_planet(double mass)
 void show_planet(struct gfx_context_t *ctxt, planet_t planet)
 {
     uint32_t color = MAKE_COLOR(255, 0, 255);
+    draw_full_circle(ctxt, planet.display_pos.x, planet.display_pos.y, planet.display_diameter, color);
+}
 
-    draw_full_circle(ctxt, planet.pos.x, planet.pos.y, planet.radius, color);
+vec2 convert_planet_pos_to_display_pos(int displayWidth,int displayHeight,vec2 planet_pos){
+    //WE assume that the system cannot be bigger than D_Neptune *2
+    double system_size = DISTANCE_NEPTUNE * 2.0;
+    double x = (int)power_scale(planet_pos.x,0,system_size,0,displayWidth,1);
+    double y = (int)power_scale(planet_pos.y,0,system_size,0,displayHeight,1);
+    printf("\nsystem size : %f  planet_pos: %f,%f\n",system_size,planet_pos.x,planet_pos.y);
+    printf("Screen: %dx%d \nPos : x %f , y %f \n",displayWidth,displayHeight,x,y);
+    return vec2_create(x,y);
 }
 
 void show_system(struct gfx_context_t *ctxt, system_t system)
 {
-    for (uint32_t i = 0; i < system.nb_planets; i++)
+    //we start at 1 to display only the planet and not the sun
+    for (uint32_t i = 1; i < system.nb_planets; i++)
     {
         planet_t planet = system.planets[i];
         show_planet(ctxt, planet);
@@ -73,7 +83,7 @@ void update_system(system_t *system, double delta_t)
     for (uint32_t i = 0; i < system->nb_planets; i++)
     {
         planet_t planet = system->planets[i];
-        planet.pos = (vec2){planet.pos.x + delta_t, planet.pos.y + delta_t};
+        planet.pos = vec2_create(planet.pos.x +100000, planet.pos.y + 100000);
     }
 }
 

@@ -23,22 +23,21 @@ int main()
 
     // ==== Create system here
 
-    planet_t sun = create_planet(M_SUN);
-    planet_t ash_twin = create_planet(M_ASH_TWIN);
-    planet_t timber_hearth = create_planet(M_TIMBER_HEARTH);
-    planet_t brittle_hollow = create_planet(M_BRITTLE_HOLLOW);
-    planet_t giants_deep = create_planet(M_GIANTS_DEEP);
-    planet_t dark_bramble = create_planet(M_DARK_BRAMBLE);
+    planet_t sun = create_planet(MASS_SUN,DIAMETER_SUN);
+    planet_t mercury = create_planet(MASS_MERCURY,DIAMETER_MERCURY);
+    planet_t earth = create_planet(MASS_EARTH,DIAMETER_EARTH);
+    planet_t mars = create_planet(MASS_MARS,DIAMETER_MARS);
+    planet_t jupiter = create_planet(MASS_JUPITER,DIAMETER_JUPITER);
+    planet_t neptune = create_planet(MASS_NEPTUNE,DIAMETER_NEPTUNE);
     
-    //The planets can only be placed after all the planets have been initialized because we need the size of the sun and the farthest one
-    place_planet(&sun,D_SUN,SCREEN_WIDTH -dark_bramble.radius,SCREEN_HEIGHT);
-    place_planet(&ash_twin,D_ASH_TWIN,SCREEN_WIDTH -dark_bramble.radius,SCREEN_HEIGHT);
-    place_planet(&timber_hearth,D_TIMBER_HEARTH,SCREEN_WIDTH -dark_bramble.radius,SCREEN_HEIGHT);
-    place_planet(&brittle_hollow,D_BRITTLE_HOLLOW,SCREEN_WIDTH -dark_bramble.radius,SCREEN_HEIGHT);
-    place_planet(&giants_deep,D_GIANTS_DEEP,SCREEN_WIDTH -dark_bramble.radius,SCREEN_HEIGHT);
-    place_planet(&dark_bramble,D_DARK_BRAMBLE,SCREEN_WIDTH -dark_bramble.radius,SCREEN_HEIGHT);
+    place_planet(&sun,DISTANCE_SUN,SCREEN_WIDTH,SCREEN_HEIGHT);
+    place_planet(&mercury,DISTANCE_MERCURY,SCREEN_WIDTH,SCREEN_HEIGHT);
+    place_planet(&earth,DISTANCE_EARTH,SCREEN_WIDTH,SCREEN_HEIGHT);
+    place_planet(&mars,DISTANCE_MARS,SCREEN_WIDTH,SCREEN_HEIGHT);
+    place_planet(&jupiter,DISTANCE_JUPITER,SCREEN_WIDTH,SCREEN_HEIGHT);
+    place_planet(&neptune,DISTANCE_NEPTUNE,SCREEN_WIDTH,SCREEN_HEIGHT);
 
-    planet_t planets[NUMBER_OF_PLANETS] = {sun,ash_twin,timber_hearth,brittle_hollow,giants_deep,dark_bramble};
+    planet_t planets[NUMBER_OF_PLANETS] = {sun,mercury,earth,mars,jupiter,neptune};
 
     system_t solarSytem =
         {
@@ -64,11 +63,15 @@ int main()
 
         show_system(ctxt, solarSytem);
 
-        // ====
-
         if (gfx_keypressed() == SDLK_ESCAPE)
         {
+            printf("Shutting down the app");
             break;
+        }else{
+            //Does not work I dont understand how keypresses are supposed to be handled with this lib
+            if(gfx_keypressed() == SDLK_SPACE){
+                printf("AAAAAAaaaaAAAaAAaAAA");
+            }
         }
     }
 
