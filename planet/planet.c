@@ -74,16 +74,19 @@ void show_system(struct gfx_context_t *ctxt, system_t system)
     for (uint32_t i = 1; i < system.nb_planets; i++)
     {
         planet_t planet = system.planets[i];
+        system.planets[i].display_pos = convert_planet_pos_to_display_pos(ctxt->width,ctxt->height,planet.pos);
         show_planet(ctxt, planet);
     }
 }
 
 void update_system(system_t *system, double delta_t)
 {
-    for (uint32_t i = 0; i < system->nb_planets; i++)
+    //We dont want to affect the sun for now
+    for (uint32_t i = 1; i < system->nb_planets; i++)
     {
-        planet_t planet = system->planets[i];
-        planet.pos = vec2_create(planet.pos.x +100000, planet.pos.y + 100000);
+        system->planets[i].pos.x += 100000;
+        system->planets[i].pos.y += 100000;
+        //planet.pos = vec2_create(planet.pos.x + 1234, planet.pos.y + 1234);
     }
 }
 
