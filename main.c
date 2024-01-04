@@ -23,12 +23,12 @@ int main()
 
     // ==== Create system here
 
-    planet_t sun = create_planet(MASS_SUN,DIAMETER_SUN);
-    planet_t mercury = create_planet(MASS_MERCURY,DIAMETER_MERCURY);
-    planet_t earth = create_planet(MASS_EARTH,DIAMETER_EARTH);
-    planet_t mars = create_planet(MASS_MARS,DIAMETER_MARS);
-    planet_t jupiter = create_planet(MASS_JUPITER,DIAMETER_JUPITER);
-    planet_t neptune = create_planet(MASS_NEPTUNE,DIAMETER_NEPTUNE);
+    planet_t sun = create_planet(MASS_SUN,DIAMETER_SUN,ECCENTRICITY_SUN);
+    planet_t mercury = create_planet(MASS_MERCURY,DIAMETER_MERCURY,ECCENTRICITY_MERCURY);
+    planet_t earth = create_planet(MASS_EARTH,DIAMETER_EARTH,ECCENTRICITY_EARTH);
+    planet_t mars = create_planet(MASS_MARS,DIAMETER_MARS,ECCENTRICITY_MARS);
+    planet_t jupiter = create_planet(MASS_JUPITER,DIAMETER_JUPITER,ECCENTRICITY_JUPITER);
+    planet_t neptune = create_planet(MASS_NEPTUNE,DIAMETER_NEPTUNE,ECCENTRICITY_NEPTUNE);
     
     place_planet(&sun,DISTANCE_SUN,SCREEN_WIDTH,SCREEN_HEIGHT);
     place_planet(&mercury,DISTANCE_MERCURY,SCREEN_WIDTH,SCREEN_HEIGHT);
@@ -59,7 +59,7 @@ int main()
         /// ==== Update system here
         gfx_clear(ctxt, COLOR_BLACK);
 
-        update_system(&solarSytem, 10);
+        update_system(&solarSytem, 0.1);
 
         show_system(ctxt, solarSytem);
 

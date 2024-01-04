@@ -34,11 +34,19 @@
 #define DIAMETER_MARS 6792
 #define DIAMETER_NEPTUNE 49528
 
+#define ECCENTRICITY_SUN 0
+#define ECCENTRICITY_EARTH 0.017
+#define ECCENTRICITY_JUPITER 0.049
+#define ECCENTRICITY_MERCURY 0.206
+#define ECCENTRICITY_MARS 0.094
+#define ECCENTRICITY_NEPTUNE 0.010
+
 typedef struct _planet
 {
     double mass;
     double diameter;
     double display_diameter;
+    double eccentricity;
     vec2 display_pos;
     vec2 pos;      // x(t)
     vec2 prec_pos; // x(t - dt)
@@ -52,7 +60,7 @@ typedef struct _system
 
 // Those function are not mandatory to implement,
 // it's rather a hint of what you should have.
-planet_t create_planet(double mass,double diameter);
+planet_t create_planet(double mass,double diameter,double eccentricity);
 system_t create_system(double delta_t);
 
 void show_planet(struct gfx_context_t *ctxt, planet_t planet);

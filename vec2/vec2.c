@@ -45,6 +45,23 @@ vec2 vec2_mul(double scalar, vec2 rhs)
     return vec2_create(rhs.x * scalar, rhs.y * scalar);
 }
 
+/// Multiply a vector by an other vector.
+/// @param lhs The left operand, a vector.
+/// @param rhs The right operand, a vector.
+/// @return The product in a new vector.
+vec2 vec2_mul_vec(vec2 lhs, vec2 rhs)
+{
+    return vec2_create(rhs.x * lhs.x, rhs.y * lhs.y);
+}
+
+/// Gets the square root of a vector
+/// @param vec The vector
+/// @return The product in a new vector.
+vec2 vec2_sqrt(vec2 vec)
+{
+    return vec2_create(sqrt(vec.x),sqrt(vec.y));
+}
+
 /// Compute the dot product (scalar product) between two vectors.
 /// @param lhs The left operand.
 /// @param rhs The right operand.

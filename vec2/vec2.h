@@ -23,6 +23,10 @@ vec2 vec2_add(vec2 lhs, vec2 rhs);
 vec2 vec2_sub(vec2 lhs, vec2 rhs);
 
 vec2 vec2_mul(double scalar, vec2 rhs);
+//Lol
+vec2 vec2_mul_vec(vec2 lhs,vec2 rhs);
+//Lol
+vec2 vec2_sqrt(vec2 vec);
 
 double vec2_dot(vec2 lhs, vec2 rhs);
 

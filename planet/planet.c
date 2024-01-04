@@ -4,7 +4,7 @@
 #define G 6.67e-11
 //Thos two values are used to determin the size of the planets. Have fun and change them to see the effects
 #define MAX_DISPLAY_PLANET_SIZE 100
-#define MIN_DISPLAY_PLANET_SIZE 5
+#define MIN_DISPLAY_PLANET_SIZE 1
 
 // TODO : magic
 
@@ -38,7 +38,7 @@ void place_planet(planet_t * planet,double starting_distance_from_sun, int displ
     planet->pos = pos;
 }
 
-planet_t create_planet(double mass,double diameter)
+planet_t create_planet(double mass,double diameter,double eccentricity)
 {
     vec2 startPos = vec2_create(0,0);
     //You an play with the power factor to controll the ratio between the size of the biggest element and the planets
@@ -49,7 +49,8 @@ planet_t create_planet(double mass,double diameter)
         .diameter = diameter,
         .display_diameter = display_diameter,
         .pos = startPos,
-        .prec_pos = startPos};
+        .eccentricity = eccentricity,
+        .prec_pos = vec2_create(-1,-1)};
 }
 
 void show_planet(struct gfx_context_t *ctxt, planet_t planet)
@@ -79,12 +80,41 @@ void show_system(struct gfx_context_t *ctxt, system_t system)
 
 void update_system(system_t *system, double delta_t)
 {
-    //We dont want to affect the sun for now
+    // Avoid modifying the sun (assuming it's the first element in the array)
     for (uint32_t i = 1; i < system->nb_planets; i++)
     {
-        system->planets[i].pos.x += 10000;
-        system->planets[i].pos.y += 10000;
-        //planet.pos = vec2_create(planet.pos.x + 1234, planet.pos.y + 1234);
+        planet_t *planet = &system->planets[i]; // Use pointer to directly modify the planet
+        planet_t *sun = &system->planets[0]; // Pointer to the sun for direct access
+
+        double distance_from_sun = sqrt(pow(planet->pos.x - sun->pos.x, 2) + pow(planet->pos.y - sun->pos.y, 2));
+
+        vec2 diff_sun = vec2_create(planet->pos.x - sun->pos.x, planet->pos.y - sun->pos.y);
+        vec2 diff_sun_norm = vec2_normalize(diff_sun);
+        vec2 F = vec2_mul(G * (MASS_SUN * planet->mass) / pow(distance_from_sun, 2), diff_sun_norm);
+
+        vec2 ap = vec2_mul(-1 / planet->mass,F); // Force divided by planet's mass gives acceleration
+
+        if (planet->prec_pos.x == -1) 
+        {
+            //First time
+            vec2 rp = vec2_create(-diff_sun.y, diff_sun.x);
+            vec2 Vp_0 = vec2_mul(sqrt(G * MASS_SUN * (1 + planet->eccentricity) / (distance_from_sun * (1 - planet->eccentricity))), vec2_normalize(rp));
+            vec2 Xpdtr = vec2_add(vec2_add(planet->pos, vec2_mul(delta_t, Vp_0)), vec2_mul(0.5*pow(delta_t, 2), ap));
+            planet->prec_pos = planet->pos;
+            planet->pos = Xpdtr;
+
+            printf("\n old/new\n");
+            vec2_print(planet->prec_pos);
+            printf("VS \n");
+            vec2_print(Xpdtr);
+        } 
+        else 
+        {
+            vec2 Xptdr = vec2_add(vec2_sub(vec2_mul(2,planet->pos),planet->prec_pos) , vec2_mul(pow(delta_t,2),ap));
+
+            planet->prec_pos = planet->pos;
+            planet->pos = Xptdr;
+        }
     }
 }
 
