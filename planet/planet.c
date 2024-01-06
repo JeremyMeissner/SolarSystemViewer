@@ -76,6 +76,8 @@ void show_system(struct gfx_context_t *ctxt, system_t system)
         system.planets[i].display_pos = convert_planet_pos_to_display_pos(ctxt->width,ctxt->height,planet.pos);
         show_planet(ctxt, planet);
     }
+    uint32_t color = MAKE_COLOR(255, 255, 0);
+    draw_full_circle(ctxt, system.planets[0].display_pos.x, system.planets[0].display_pos.y, 3, color);
 }
 
 void update_system(system_t *system, double delta_t)
