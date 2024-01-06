@@ -87,20 +87,50 @@ void update_system(system_t *system, double delta_t)
     {
         planet_t *planet = &system->planets[i]; // Use pointer to directly modify the planet
         planet_t *sun = &system->planets[0]; // Pointer to the sun for direct access
-
+        /*
         double distance_from_sun = sqrt(pow(planet->pos.x - sun->pos.x, 2) + pow(planet->pos.y - sun->pos.y, 2));
 
         vec2 diff_sun = vec2_create(planet->pos.x - sun->pos.x, planet->pos.y - sun->pos.y);
         vec2 diff_sun_norm = vec2_normalize(diff_sun);
+
+        //The initial force is the force of the sun
         vec2 F = vec2_mul(G * (MASS_SUN * planet->mass) / pow(distance_from_sun, 2), diff_sun_norm);
+
+        */
+
+        vec2 F = vec2_create(0,0);
+        
+        for(uint32_t j = 0; j < system->nb_planets; j++){
+            //We add the force of the planets
+            if(j != i){
+                vec2 diff_planet = vec2_create(planet->pos.x - system->planets[j].pos.x, planet->pos.y - system->planets[j].pos.y);
+                vec2 diff_planet_norm = vec2_normalize(diff_planet);
+                double distance_from_planet = sqrt(pow(planet->pos.x - system->planets[j].pos.x, 2) + pow(planet->pos.y - system->planets[j].pos.y, 2));
+                vec2 newF = vec2_mul(G * (system->planets[j].mass * planet->mass) / pow(distance_from_planet, 2), diff_planet_norm);
+
+                F = vec2_add(F,newF);
+            }
+            
+        }
 
         vec2 ap = vec2_mul(-1 / planet->mass,F); // Force divided by planet's mass gives acceleration
 
         if (planet->prec_pos.x == -1) 
         {
             //First time
-            vec2 rp = vec2_create(-diff_sun.y, diff_sun.x);
-            vec2 Vp_0 = vec2_mul(sqrt(G * MASS_SUN * (1 + planet->eccentricity) / (distance_from_sun * (1 - planet->eccentricity))), vec2_normalize(rp));
+            vec2 Vp_0 = vec2_create(0,0);
+            for(uint32_t j =0; j < system->nb_planets; j++){
+            //We add the force of the planets
+                if(j != i){
+                    vec2 diff_planet = vec2_create(planet->pos.x - system->planets[j].pos.x, planet->pos.y - system->planets[j].pos.y);
+                    vec2 rp = vec2_create(-diff_planet.y, diff_planet.x);
+                    double distance_from_planet = sqrt(pow(planet->pos.x - system->planets[j].pos.x, 2) + pow(planet->pos.y - system->planets[j].pos.y, 2));
+                    vec2 Vp_inter = vec2_mul(sqrt(G * system->planets[j].mass * (1 + planet->eccentricity) / (distance_from_planet * (1 - planet->eccentricity))), vec2_normalize(rp));
+
+                    Vp_0 = vec2_add(Vp_0,Vp_inter);
+                }
+            }
+            
             vec2 Xpdtr = vec2_add(vec2_add(planet->pos, vec2_mul(delta_t, Vp_0)), vec2_mul(0.5*pow(delta_t, 2), ap));
             planet->prec_pos = planet->pos;
             planet->pos = Xpdtr;
