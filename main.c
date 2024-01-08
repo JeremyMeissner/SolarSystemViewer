@@ -74,7 +74,6 @@ int main()
     // You can put stuff with printf's here before the simulation starts
 
     /* DEBUG PLAYGROUND END */
-
     while (true)
     {
         gfx_present(ctxt);
@@ -85,8 +84,8 @@ int main()
         //solarSystem.system_visible_size.x -= 500000;
         //solarSystem.system_visible_size.y -= 500000;
 
-        camera_offset.x -= 0.1;
-        camera_offset.y -= 0.1;
+        //camera_offset.x -= 0.1;
+        //camera_offset.y -= 0.1;
         //solarSystem.system_visible_size.x += 500000;
         //solarSystem.system_visible_size.y += 500000;
 
@@ -94,14 +93,45 @@ int main()
 
         show_system(ctxt, solarSystem,camera_offset);
 
-        if (gfx_keypressed() == SDLK_ESCAPE)
-        {
-            printf("Shutting down the app");
+        int camera_increment = 5;
+
+        int pressedKey = gfx_keypressed();
+        if (pressedKey == 27) { // Assuming 27 is the key code for Escape
+            printf("Shutting down the app\n");
             break;
-        }else{
-            //Does not work I dont understand how keypresses are supposed to be handled with this lib
-            if(gfx_keypressed() == SDLK_SPACE){
-                printf("AAAAAAaaaaAAAaAAaAAA");
+        } else {
+             if (pressedKey != SDLK_UNKNOWN && pressedKey != 27) {
+                printf("Key pressed: %d\n", pressedKey);
+                switch (pressedKey) {
+                case SDLK_UP:
+                case 'W':
+                case 'w':
+                    //printf("Up key pressed\n");
+                    camera_offset.y -= camera_increment;
+                    break;
+                case SDLK_DOWN:
+                case 'S':
+                case 's':
+                    //printf("Down key pressed\n");
+                    camera_offset.y += camera_increment;
+                    break;
+                case SDLK_LEFT:
+                case 'A':
+                case 'a':
+                    //printf("Left key pressed\n");
+                    camera_offset.x -= camera_increment;
+                    break;
+                case SDLK_RIGHT:
+                case 'D':
+                case 'd':
+                    //printf("Right key pressed\n");
+                    camera_offset.x += camera_increment;
+                    break;
+                // Add more cases for other keys as needed
+                default:
+                    //printf("Unhandled key pressed\n");
+                    break;
+                }
             }
         }
     }
