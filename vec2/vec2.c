@@ -59,7 +59,7 @@ vec2 vec2_mul_vec(vec2 lhs, vec2 rhs)
 /// @return The product in a new vector.
 vec2 vec2_sqrt(vec2 vec)
 {
-    return vec2_create(sqrt(vec.x),sqrt(vec.y));
+    return vec2_create(sqrt(vec.x), sqrt(vec.y));
 }
 
 /// Compute the dot product (scalar product) between two vectors.

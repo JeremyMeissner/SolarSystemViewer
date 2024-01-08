@@ -18,7 +18,17 @@
 struct gfx_context_t *gfx_create(char *title, uint32_t width, uint32_t height)
 {
     if (SDL_Init(SDL_INIT_VIDEO) != 0)
+    {
+        fprintf(stderr, "SDL_Init Error: %s\n", SDL_GetError());
         goto error;
+    }
+
+    // if (TTF_Init() == -1)
+    // {
+    //     fprintf(stderr, "TTF_Init Error: %s\n", TTF_GetError());
+    //     goto error;
+    // }
+
     SDL_Window *window = SDL_CreateWindow(title, SDL_WINDOWPOS_UNDEFINED,
                                           SDL_WINDOWPOS_UNDEFINED, width, height, SDL_WINDOW_RESIZABLE);
     SDL_Renderer *renderer = SDL_CreateRenderer(window, -1, 0);
@@ -33,10 +43,17 @@ struct gfx_context_t *gfx_create(char *title, uint32_t width, uint32_t height)
     ctxt->renderer = renderer;
     ctxt->texture = texture;
     ctxt->window = window;
+    // ctxt->font = TTF_OpenFont("fonts/Roboto.ttf", 12);
+    // ctxt->textColor = (SDL_Color){0, 255, 255};
     ctxt->width = width;
     ctxt->height = height;
     ctxt->pixels = pixels;
 
+    // if (!ctxt->font)
+    // {
+    //     fprintf(stderr, "Failed to load font: %s\n", TTF_GetError());
+    //     goto error;
+    // }
     SDL_ShowCursor(SDL_DISABLE);
     gfx_clear(ctxt, COLOR_BLACK);
     return ctxt;
@@ -44,6 +61,32 @@ struct gfx_context_t *gfx_create(char *title, uint32_t width, uint32_t height)
 error:
     return NULL;
 }
+
+// void gfx_render_text(struct gfx_context_t *ctxt, const char *text, int x, int y)
+// {
+//     SDL_Surface *surface = TTF_RenderText_Solid(ctxt->font, text, ctxt->textColor);
+//     if (!surface)
+//     {
+//         fprintf(stderr, "TTF_RenderText_Solid Error: %s\n", TTF_GetError());
+//         return;
+//     }
+
+//     SDL_Texture *texture = SDL_CreateTextureFromSurface(ctxt->renderer, surface);
+//     if (!texture)
+//     {
+//         fprintf(stderr, "CreateTextureFromSurface Error: %s\n", SDL_GetError());
+//         SDL_FreeSurface(surface);
+//         return;
+//     }
+
+//     SDL_Rect textRect = {x, y, surface->w, surface->h};
+//     SDL_RenderCopy(ctxt->renderer, texture, NULL, &textRect);
+
+//     SDL_RenderPresent(ctxt->renderer); // Update the screen with rendered text
+
+//     SDL_FreeSurface(surface);
+//     SDL_DestroyTexture(texture);
+// }
 
 /// Draw a pixel in the specified graphic context.
 /// @param ctxt Graphic context where the pixel is to be drawn.

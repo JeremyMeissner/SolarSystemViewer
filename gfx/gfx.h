@@ -25,6 +25,8 @@ struct gfx_context_t
     SDL_Window *window;
     SDL_Renderer *renderer;
     SDL_Texture *texture;
+    // SDL_Color textColor;
+    // TTF_Font *font;
     uint32_t *pixels;
     uint32_t width;
     uint32_t height;
@@ -38,5 +40,5 @@ extern void gfx_destroy(struct gfx_context_t *ctxt);
 extern void gfx_present(struct gfx_context_t *ctxt);
 extern SDL_Keycode gfx_keypressed();
 extern void draw_full_circle(struct gfx_context_t *ctxt, uint32_t c_column, uint32_t c_row, uint32_t r, uint32_t color);
-
+// void gfx_render_text(struct gfx_context_t *ctxt, const char *text, int x, int y);
 #endif
