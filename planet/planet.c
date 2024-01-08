@@ -4,7 +4,7 @@
 #define G 6.67e-11
 //Thos two values are used to determin the size of the planets. Have fun and change them to see the effects
 #define MAX_DISPLAY_PLANET_SIZE 100
-#define MIN_DISPLAY_PLANET_SIZE 5
+#define MIN_DISPLAY_PLANET_SIZE 2
 
 // TODO : magic
 
