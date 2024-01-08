@@ -61,9 +61,19 @@ void show_planet(struct gfx_context_t *ctxt, planet_t planet)
 
 vec2 convert_planet_pos_to_display_pos(int displayWidth,int displayHeight,vec2 planet_pos){
     //WE assume that the system cannot be bigger than D_Neptune *2
-    double system_size = DISTANCE_NEPTUNE * 2.0;
-    double x = (int)power_scale(planet_pos.x,0,system_size,0,displayWidth,1);
-    double y = (int)power_scale(planet_pos.y,0,system_size,0,displayHeight,1);
+    double xRatio = displayWidth / DISTANCE_NEPTUNE;
+    double yRatio = displayHeight / DISTANCE_NEPTUNE;
+
+    //printf("Value : %f , newValue = %f\n",planet_pos.x,planet_pos.x * xRatio);
+
+    double system_size = DISTANCE_NEPTUNE * 2;
+    //double x = (int)power_scale(planet_pos.x,0,system_size,0,displayWidth,1);
+    //double y = (int)power_scale(planet_pos.y,0,system_size,0,displayHeight,1);
+
+    double x = ((planet_pos.x * xRatio) / 2);
+    double y = ((planet_pos.y * yRatio) / 2);
+
+    //coordinates position = vec2_to_coordinates(planet_pos,displayWidth,displayHeight);
     return vec2_create(x,y);
 }
 
