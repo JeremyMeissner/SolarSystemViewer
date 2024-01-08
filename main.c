@@ -74,6 +74,8 @@ int main()
     // You can put stuff with printf's here before the simulation starts
 
     /* DEBUG PLAYGROUND END */
+    int current_planet_focus = 0;
+    bool needToSnap = true;
     while (true)
     {
         gfx_present(ctxt);
@@ -99,10 +101,7 @@ int main()
         //Uint32 state = SDL_GetMouseState(&MouseX, &MouseY);
         //SDL_GetRelativeMouseState(&mouseX, &mouseY);
         //printf("X: %d, Y:%d\n",mouseX,mouseY);
-
-        vec2 pos = convert_planet_pos_to_display_pos(SCREEN_WIDTH,SCREEN_HEIGHT,planets[3].pos,system_visible_size,vec2_create(0,0));
-        camera_offset = vec2_create(SCREEN_WIDTH / 2 - pos.x,SCREEN_HEIGHT/2 -pos.y);
-        printf("Pos: %f:%f\n",pos.x,pos.y);
+        //printf("Pos: %f:%f\n",pos.x,pos.y);
 
         int pressedKey = gfx_keypressed();
         if (pressedKey == 27) { // Assuming 27 is the key code for Escape
@@ -111,28 +110,72 @@ int main()
         } else {
              if (pressedKey != SDLK_UNKNOWN && pressedKey != 27) {
                 switch (pressedKey) {
+                case '1':
+                    current_planet_focus = 0;
+                    needToSnap = true;
+                break;
+                case '2':
+                    current_planet_focus = 1;
+                    needToSnap = true;
+                break;
+                case '3':
+                    current_planet_focus = 2;
+                    needToSnap = true;
+                break;
+                case '4':
+                    current_planet_focus = 3;
+                    needToSnap = true;
+                break;
+                case '5':
+                    current_planet_focus = 4;
+                    needToSnap = true;
+                break;
+                case '6':
+                    current_planet_focus = 5;
+                    needToSnap = true;
+                break;
+                case '7':
+                    current_planet_focus = 6;
+                    needToSnap = true;
+                break;
+                case '8':
+                    current_planet_focus = 7;
+                    needToSnap = true;
+                break;
+                case '9':
+                    current_planet_focus = 8;
+                    needToSnap = true;
+                break;
+                case '10':
+                    current_planet_focus = 9;
+                    needToSnap = true;
+                break;
                 case SDLK_UP:
                 case 'W':
                 case 'w':
                     //printf("Up key pressed\n");
+                    needToSnap = false;
                     camera_offset.y += camera_increment;
                     break;
                 case SDLK_DOWN:
                 case 'S':
                 case 's':
                     //printf("Down key pressed\n");
+                    needToSnap = false;
                     camera_offset.y -= camera_increment;
                     break;
                 case SDLK_LEFT:
                 case 'A':
                 case 'a':
                     //printf("Left key pressed\n");
+                    needToSnap = false;
                     camera_offset.x += camera_increment;
                     break;
                 case SDLK_RIGHT:
                 case 'D':
                 case 'd':
                     //printf("Right key pressed\n");
+                    needToSnap = false;
                     camera_offset.x -= camera_increment;
                     break;
                 // Add more cases for other keys as needed
@@ -140,6 +183,11 @@ int main()
                     //printf("Unhandled key pressed\n");
                     break;
                 }
+            }
+
+            if(needToSnap){
+                vec2 pos = convert_planet_pos_to_display_pos(SCREEN_WIDTH,SCREEN_HEIGHT,planets[current_planet_focus].pos,system_visible_size,vec2_create(0,0));
+                camera_offset = vec2_create(SCREEN_WIDTH / 2 - pos.x,SCREEN_HEIGHT/2 -pos.y);
             }
         }
     }
