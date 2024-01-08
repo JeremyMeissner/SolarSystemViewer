@@ -26,12 +26,15 @@ int main()
     //If you change this you techincally zoom
 
     //Includes up to mars
-    //vec2 system_visible_size = vec2_create(DISTANCE_MARS * 2.5,DISTANCE_MARS *2.5);
+    vec2 system_visible_size = vec2_create(DISTANCE_MARS * 2.5,DISTANCE_MARS *2.5);
     //Includes all planets
     //Includes up to Jupiter
     //vec2 system_visible_size = vec2_create(DISTANCE_JUPITER * 2.2,DISTANCE_JUPITER *2.2);
     //Includes all planets
-    vec2 system_visible_size = vec2_create(DISTANCE_PLUTO * 2.2,DISTANCE_PLUTO * 2.2);
+    //vec2 system_visible_size = vec2_create(DISTANCE_PLUTO * 2.2,DISTANCE_PLUTO * 2.2);
+
+    vec2 camera_offset = vec2_create(0,0);
+
 
     planet_t sun = create_planet(MASS_SUN,DIAMETER_SUN,ECCENTRICITY_SUN);
     planet_t mercury = create_planet(MASS_MERCURY,DIAMETER_MERCURY,ECCENTRICITY_MERCURY);
@@ -79,12 +82,17 @@ int main()
         /// ==== Update system here
         gfx_clear(ctxt, COLOR_BLACK);
 
-        solarSystem.system_visible_size.x -= 500000;
-        solarSystem.system_visible_size.y -= 500000;
+        //solarSystem.system_visible_size.x -= 500000;
+        //solarSystem.system_visible_size.y -= 500000;
+
+        camera_offset.x -= 0.1;
+        camera_offset.y -= 0.1;
+        //solarSystem.system_visible_size.x += 500000;
+        //solarSystem.system_visible_size.y += 500000;
 
         update_system(&solarSystem, 0.1);
 
-        show_system(ctxt, solarSystem);
+        show_system(ctxt, solarSystem,camera_offset);
 
         if (gfx_keypressed() == SDLK_ESCAPE)
         {

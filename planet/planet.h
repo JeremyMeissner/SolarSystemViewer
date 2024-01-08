@@ -80,11 +80,11 @@ typedef struct _system
 planet_t create_planet(double mass,double diameter,double eccentricity);
 system_t create_system(double delta_t,vec2 visible_system_size);
 
-void show_planet(struct gfx_context_t *ctxt, planet_t planet);
-void show_system(struct gfx_context_t *ctxt, system_t system);
+void show_planet(struct gfx_context_t *ctxt, planet_t planet,int planetID);
+void show_system(struct gfx_context_t *ctxt, system_t system, vec2 camera_offset);
 void update_system(system_t *system, double delta_t);
 void free_system(system_t *system);
 void place_planet(planet_t * planet,double starting_distance_from_sun, int widthOfSystem, int heightOfSystem, vec2 system_size);
-vec2 convert_planet_pos_to_display_pos(int displayWidth,int displayHeight,vec2 planetPos, vec2 system_size);
+vec2 convert_planet_pos_to_display_pos(int displayWidth,int displayHeight,vec2 planetPos, vec2 system_size,vec2 camera_offset);
 
 #endif
