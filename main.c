@@ -94,6 +94,11 @@ int main()
         show_system(ctxt, solarSystem,camera_offset);
 
         int camera_increment = 5;
+        
+        int mouseX, mouseY;
+        //Uint32 state = SDL_GetMouseState(&MouseX, &MouseY);
+        //SDL_GetRelativeMouseState(&mouseX, &mouseY);
+        //printf("X: %d, Y:%d\n",mouseX,mouseY);
 
         int pressedKey = gfx_keypressed();
         if (pressedKey == 27) { // Assuming 27 is the key code for Escape
@@ -107,25 +112,25 @@ int main()
                 case 'W':
                 case 'w':
                     //printf("Up key pressed\n");
-                    camera_offset.y -= camera_increment;
+                    camera_offset.y += camera_increment;
                     break;
                 case SDLK_DOWN:
                 case 'S':
                 case 's':
                     //printf("Down key pressed\n");
-                    camera_offset.y += camera_increment;
+                    camera_offset.y -= camera_increment;
                     break;
                 case SDLK_LEFT:
                 case 'A':
                 case 'a':
                     //printf("Left key pressed\n");
-                    camera_offset.x -= camera_increment;
+                    camera_offset.x += camera_increment;
                     break;
                 case SDLK_RIGHT:
                 case 'D':
                 case 'd':
                     //printf("Right key pressed\n");
-                    camera_offset.x += camera_increment;
+                    camera_offset.x -= camera_increment;
                     break;
                 // Add more cases for other keys as needed
                 default:
