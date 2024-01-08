@@ -100,13 +100,16 @@ int main()
         //SDL_GetRelativeMouseState(&mouseX, &mouseY);
         //printf("X: %d, Y:%d\n",mouseX,mouseY);
 
+        vec2 pos = convert_planet_pos_to_display_pos(SCREEN_WIDTH,SCREEN_HEIGHT,planets[3].pos,system_visible_size,vec2_create(0,0));
+        camera_offset = vec2_create(SCREEN_WIDTH / 2 - pos.x,SCREEN_HEIGHT/2 -pos.y);
+        printf("Pos: %f:%f\n",pos.x,pos.y);
+
         int pressedKey = gfx_keypressed();
         if (pressedKey == 27) { // Assuming 27 is the key code for Escape
             printf("Shutting down the app\n");
             break;
         } else {
              if (pressedKey != SDLK_UNKNOWN && pressedKey != 27) {
-                printf("Key pressed: %d\n", pressedKey);
                 switch (pressedKey) {
                 case SDLK_UP:
                 case 'W':
