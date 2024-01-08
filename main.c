@@ -23,43 +23,41 @@ int main()
 
     // ==== Create system here
 
-    //If you change this you techincally zoom
+    // If you change this you techincally zoom
 
-    //Includes up to mars
-    vec2 system_visible_size = vec2_create(DISTANCE_MARS * 2.5,DISTANCE_MARS *2.5);
-    //Includes all planets
-    //Includes up to Jupiter
-    //vec2 system_visible_size = vec2_create(DISTANCE_JUPITER * 2.2,DISTANCE_JUPITER *2.2);
-    //Includes all planets
-    //vec2 system_visible_size = vec2_create(DISTANCE_PLUTO * 2.2,DISTANCE_PLUTO * 2.2);
+    // Includes up to mars
+    vec2 system_visible_size = vec2_create(DISTANCE_MARS * 2.5, DISTANCE_MARS * 2.5);
+    // Includes all planets
+    // Includes up to Jupiter
+    // vec2 system_visible_size = vec2_create(DISTANCE_JUPITER * 2.2,DISTANCE_JUPITER *2.2);
+    // Includes all planets
+    // vec2 system_visible_size = vec2_create(DISTANCE_PLUTO * 2.2,DISTANCE_PLUTO * 2.2);
 
-    vec2 camera_offset = vec2_create(0,0);
+    vec2 camera_offset = vec2_create(0, 0);
 
+    planet_t sun = create_planet(MASS_SUN, DIAMETER_SUN, ECCENTRICITY_SUN);
+    planet_t mercury = create_planet(MASS_MERCURY, DIAMETER_MERCURY, ECCENTRICITY_MERCURY);
+    planet_t venus = create_planet(MASS_VENUS, DIAMETER_VENUS, ECCENTRICITY_VENUS);
+    planet_t earth = create_planet(MASS_EARTH, DIAMETER_EARTH, ECCENTRICITY_EARTH);
+    planet_t mars = create_planet(MASS_MARS, DIAMETER_MARS, ECCENTRICITY_MARS);
+    planet_t jupiter = create_planet(MASS_JUPITER, DIAMETER_JUPITER, ECCENTRICITY_JUPITER);
+    planet_t saturn = create_planet(MASS_SATURN, DIAMETER_SATURN, ECCENTRICITY_SATURN);
+    planet_t uranus = create_planet(MASS_URANUS, DIAMETER_URANUS, ECCENTRICITY_URANUS);
+    planet_t neptune = create_planet(MASS_NEPTUNE, DIAMETER_NEPTUNE, ECCENTRICITY_NEPTUNE);
+    planet_t pluto = create_planet(MASS_PLUTO, DIAMETER_PLUTO, ECCENTRICITY_PLUTO);
 
-    planet_t sun = create_planet(MASS_SUN,DIAMETER_SUN,ECCENTRICITY_SUN);
-    planet_t mercury = create_planet(MASS_MERCURY,DIAMETER_MERCURY,ECCENTRICITY_MERCURY);
-    planet_t venus = create_planet(MASS_VENUS,DIAMETER_VENUS,ECCENTRICITY_VENUS);
-    planet_t earth = create_planet(MASS_EARTH,DIAMETER_EARTH,ECCENTRICITY_EARTH);
-    planet_t mars = create_planet(MASS_MARS,DIAMETER_MARS,ECCENTRICITY_MARS);
-    planet_t jupiter = create_planet(MASS_JUPITER,DIAMETER_JUPITER,ECCENTRICITY_JUPITER);
-    planet_t saturn = create_planet(MASS_SATURN,DIAMETER_SATURN,ECCENTRICITY_SATURN);
-    planet_t uranus = create_planet(MASS_URANUS,DIAMETER_URANUS,ECCENTRICITY_URANUS);
-    planet_t neptune = create_planet(MASS_NEPTUNE,DIAMETER_NEPTUNE,ECCENTRICITY_NEPTUNE);
-    planet_t pluto = create_planet(MASS_PLUTO,DIAMETER_PLUTO,ECCENTRICITY_PLUTO);
-   
-    
-    place_planet(&sun,DISTANCE_SUN,SCREEN_WIDTH,SCREEN_HEIGHT,system_visible_size);
-    place_planet(&mercury,DISTANCE_MERCURY,SCREEN_WIDTH,SCREEN_HEIGHT,system_visible_size);
-    place_planet(&venus,DISTANCE_VENUS,SCREEN_WIDTH,SCREEN_HEIGHT,system_visible_size);
-    place_planet(&earth,DISTANCE_EARTH,SCREEN_WIDTH,SCREEN_HEIGHT,system_visible_size);
-    place_planet(&mars,DISTANCE_MARS,SCREEN_WIDTH,SCREEN_HEIGHT,system_visible_size);
-    place_planet(&jupiter,DISTANCE_JUPITER,SCREEN_WIDTH,SCREEN_HEIGHT,system_visible_size);
-    place_planet(&saturn,DISTANCE_SATURN,SCREEN_WIDTH,SCREEN_HEIGHT,system_visible_size);
-    place_planet(&uranus,DISTANCE_URANUS,SCREEN_WIDTH,SCREEN_HEIGHT,system_visible_size);
-    place_planet(&neptune,DISTANCE_NEPTUNE,SCREEN_WIDTH,SCREEN_HEIGHT,system_visible_size);
-    place_planet(&pluto,DISTANCE_PLUTO,SCREEN_WIDTH,SCREEN_HEIGHT,system_visible_size);
+    place_planet(&sun, DISTANCE_SUN, SCREEN_WIDTH, SCREEN_HEIGHT, system_visible_size);
+    place_planet(&mercury, DISTANCE_MERCURY, SCREEN_WIDTH, SCREEN_HEIGHT, system_visible_size);
+    place_planet(&venus, DISTANCE_VENUS, SCREEN_WIDTH, SCREEN_HEIGHT, system_visible_size);
+    place_planet(&earth, DISTANCE_EARTH, SCREEN_WIDTH, SCREEN_HEIGHT, system_visible_size);
+    place_planet(&mars, DISTANCE_MARS, SCREEN_WIDTH, SCREEN_HEIGHT, system_visible_size);
+    place_planet(&jupiter, DISTANCE_JUPITER, SCREEN_WIDTH, SCREEN_HEIGHT, system_visible_size);
+    place_planet(&saturn, DISTANCE_SATURN, SCREEN_WIDTH, SCREEN_HEIGHT, system_visible_size);
+    place_planet(&uranus, DISTANCE_URANUS, SCREEN_WIDTH, SCREEN_HEIGHT, system_visible_size);
+    place_planet(&neptune, DISTANCE_NEPTUNE, SCREEN_WIDTH, SCREEN_HEIGHT, system_visible_size);
+    place_planet(&pluto, DISTANCE_PLUTO, SCREEN_WIDTH, SCREEN_HEIGHT, system_visible_size);
 
-    planet_t planets[NUMBER_OF_PLANETS] = {sun,mercury,venus,earth,mars,jupiter,saturn,uranus,neptune,pluto};
+    planet_t planets[NUMBER_OF_PLANETS] = {sun, mercury, venus, earth, mars, jupiter, saturn, uranus, neptune, pluto};
 
     system_t solarSystem =
         {
@@ -67,7 +65,6 @@ int main()
             .planets = planets,
             .system_visible_size = system_visible_size};
     // ====
-
 
     /* DEBUG PLAYGROUND START */
 
@@ -81,60 +78,64 @@ int main()
         /// ==== Update system here
         gfx_clear(ctxt, COLOR_BLACK);
 
-        //solarSystem.system_visible_size.x -= 500000;
-        //solarSystem.system_visible_size.y -= 500000;
+        // solarSystem.system_visible_size.x -= 500000;
+        // solarSystem.system_visible_size.y -= 500000;
 
-        //camera_offset.x -= 0.1;
-        //camera_offset.y -= 0.1;
-        //solarSystem.system_visible_size.x += 500000;
-        //solarSystem.system_visible_size.y += 500000;
+        // camera_offset.x -= 0.1;
+        // camera_offset.y -= 0.1;
+        // solarSystem.system_visible_size.x += 500000;
+        // solarSystem.system_visible_size.y += 500000;
 
         update_system(&solarSystem, 0.1);
 
-        show_system(ctxt, solarSystem,camera_offset);
+        show_system(ctxt, solarSystem, camera_offset);
 
         int camera_increment = 5;
-        
+
         int mouseX, mouseY;
-        //Uint32 state = SDL_GetMouseState(&MouseX, &MouseY);
-        //SDL_GetRelativeMouseState(&mouseX, &mouseY);
-        //printf("X: %d, Y:%d\n",mouseX,mouseY);
+        Uint32 state = SDL_GetMouseState(&mouseX, &mouseY);
+        printf("X: %d, Y:%d\n", mouseX, mouseY);
 
         int pressedKey = gfx_keypressed();
-        if (pressedKey == 27) { // Assuming 27 is the key code for Escape
+        if (pressedKey == 27)
+        { // Assuming 27 is the key code for Escape
             printf("Shutting down the app\n");
             break;
-        } else {
-             if (pressedKey != SDLK_UNKNOWN && pressedKey != 27) {
+        }
+        else
+        {
+            if (pressedKey != SDLK_UNKNOWN && pressedKey != 27)
+            {
                 printf("Key pressed: %d\n", pressedKey);
-                switch (pressedKey) {
+                switch (pressedKey)
+                {
                 case SDLK_UP:
                 case 'W':
                 case 'w':
-                    //printf("Up key pressed\n");
+                    // printf("Up key pressed\n");
                     camera_offset.y += camera_increment;
                     break;
                 case SDLK_DOWN:
                 case 'S':
                 case 's':
-                    //printf("Down key pressed\n");
+                    // printf("Down key pressed\n");
                     camera_offset.y -= camera_increment;
                     break;
                 case SDLK_LEFT:
                 case 'A':
                 case 'a':
-                    //printf("Left key pressed\n");
+                    // printf("Left key pressed\n");
                     camera_offset.x += camera_increment;
                     break;
                 case SDLK_RIGHT:
                 case 'D':
                 case 'd':
-                    //printf("Right key pressed\n");
+                    // printf("Right key pressed\n");
                     camera_offset.x -= camera_increment;
                     break;
                 // Add more cases for other keys as needed
                 default:
-                    //printf("Unhandled key pressed\n");
+                    // printf("Unhandled key pressed\n");
                     break;
                 }
             }
