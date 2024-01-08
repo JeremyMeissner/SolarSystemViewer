@@ -29,11 +29,11 @@ double normalize(double value, double min_val, double max_val,double min_range, 
     return min_range + ((value - min_val) / (max_val - min_val) * (max_range-min_range));
 }
 
-void place_planet(planet_t * planet,double starting_distance_from_sun, int displayWidth, int displayHeight){
+void place_planet(planet_t * planet,double starting_distance_from_sun, int displayWidth, int displayHeight,vec2 system_visible_size){
     
     //The 0/0 in the solar system is in the top left corner with the sun in the middle being at y and x at the biggest distance possible which is the distance from neptune
-    vec2 pos = vec2_create(DISTANCE_JUPITER + starting_distance_from_sun + DIAMETER_SUN / 2.0,DISTANCE_JUPITER);
-    vec2 display_pos = convert_planet_pos_to_display_pos(displayWidth,displayHeight,pos);
+    vec2 pos = vec2_create(DISTANCE_NEPTUNE + DIAMETER_SUN / 2.0 + starting_distance_from_sun,DISTANCE_NEPTUNE);
+    vec2 display_pos = convert_planet_pos_to_display_pos(displayWidth,displayHeight,pos,system_visible_size);
     planet->display_pos = display_pos;
     planet->pos = pos;
 }
@@ -59,21 +59,31 @@ void show_planet(struct gfx_context_t *ctxt, planet_t planet)
     draw_full_circle(ctxt, planet.display_pos.x, planet.display_pos.y, planet.display_diameter, color);
 }
 
-vec2 convert_planet_pos_to_display_pos(int displayWidth,int displayHeight,vec2 planet_pos){
+vec2 convert_planet_pos_to_display_pos(int displayWidth,int displayHeight,vec2 planet_pos, vec2 system_size){
     //WE assume that the system cannot be bigger than D_Neptune *2
-    double xRatio = displayWidth / DISTANCE_JUPITER;
-    double yRatio = displayHeight / DISTANCE_JUPITER;
+    
+    double xdiff = (DISTANCE_NEPTUNE * 2.0) - system_size.x;
+    double ydiff = (DISTANCE_NEPTUNE * 2.0) - system_size.y;
+
+    printf("xdiff : %f\n",xdiff);
+    printf("ydiff : %f\n",ydiff);
+
+    double xRatio = displayWidth / system_size.x;
+    double yRatio = displayHeight / system_size.y;
+
+    printf("xRatio: %f\n",xRatio);
+    printf("yRatio: %f\n",yRatio);
 
     //double system_size = DISTANCE_NEPTUNE * 2;
     //double x = (int)power_scale(planet_pos.x,0,system_size,0,displayWidth,1);
     //double y = (int)power_scale(planet_pos.y,0,system_size,0,displayHeight,1);
 
-    double x = ((planet_pos.x * xRatio) / 2);
-    double y = ((planet_pos.y * yRatio) / 2);
+    double x = ((planet_pos.x - xdiff / 2) * xRatio);
+    double y = ((planet_pos.y - ydiff / 2) * yRatio);
 
-    //printf("xRatio: %f\n",xRatio);
-    //printf("Value : %f , newValue = %f\n",planet_pos.x,x);
-    //printf("Value : %f , newValue = %f\n",planet_pos.y,y);
+    
+    printf("Value : %f , newValue = %f\n",planet_pos.x,x);
+    printf("Value : %f , newValue = %f\n",planet_pos.y,y);
 
     //coordinates position = vec2_to_coordinates(planet_pos,displayWidth,displayHeight);
     return vec2_create(x,y);
@@ -85,7 +95,7 @@ void show_system(struct gfx_context_t *ctxt, system_t system)
     for (uint32_t i = 1; i < system.nb_planets; i++)
     {
         planet_t planet = system.planets[i];
-        system.planets[i].display_pos = convert_planet_pos_to_display_pos(ctxt->width,ctxt->height,planet.pos);
+        system.planets[i].display_pos = convert_planet_pos_to_display_pos(ctxt->width,ctxt->height,planet.pos,system.system_visible_size);
         show_planet(ctxt, planet);
     }
     uint32_t color = MAKE_COLOR(255, 255, 0);
@@ -99,16 +109,6 @@ void update_system(system_t *system, double delta_t)
     {
         planet_t *planet = &system->planets[i]; // Use pointer to directly modify the planet
         planet_t *sun = &system->planets[0]; // Pointer to the sun for direct access
-        /*
-        double distance_from_sun = sqrt(pow(planet->pos.x - sun->pos.x, 2) + pow(planet->pos.y - sun->pos.y, 2));
-
-        vec2 diff_sun = vec2_create(planet->pos.x - sun->pos.x, planet->pos.y - sun->pos.y);
-        vec2 diff_sun_norm = vec2_normalize(diff_sun);
-
-        //The initial force is the force of the sun
-        vec2 F = vec2_mul(G * (MASS_SUN * planet->mass) / pow(distance_from_sun, 2), diff_sun_norm);
-
-        */
 
         vec2 F = vec2_create(0,0);
         

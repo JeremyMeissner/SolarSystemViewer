@@ -60,18 +60,19 @@ typedef struct _system
 {
     uint32_t nb_planets; // The number of orbiting planets
     planet_t *planets;   // An array of orbiting planets
+    vec2 system_visible_size;
 } system_t;
 
 // Those function are not mandatory to implement,
 // it's rather a hint of what you should have.
 planet_t create_planet(double mass,double diameter,double eccentricity);
-system_t create_system(double delta_t);
+system_t create_system(double delta_t,vec2 visible_system_size);
 
 void show_planet(struct gfx_context_t *ctxt, planet_t planet);
 void show_system(struct gfx_context_t *ctxt, system_t system);
 void update_system(system_t *system, double delta_t);
 void free_system(system_t *system);
-void place_planet(planet_t * planet,double starting_distance_from_sun, int widthOfSystem, int heightOfSystem);
-vec2 convert_planet_pos_to_display_pos(int displayWidth,int displayHeight,vec2 planetPos);
+void place_planet(planet_t * planet,double starting_distance_from_sun, int widthOfSystem, int heightOfSystem, vec2 system_size);
+vec2 convert_planet_pos_to_display_pos(int displayWidth,int displayHeight,vec2 planetPos, vec2 system_size);
 
 #endif

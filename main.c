@@ -23,6 +23,9 @@ int main()
 
     // ==== Create system here
 
+    //If you change this you techincally zoom
+    vec2 system_size = vec2_create(DISTANCE_MARS * 2 + DISTANCE_MERCURY,DISTANCE_MARS * 2 + DISTANCE_MERCURY);
+
     planet_t sun = create_planet(MASS_SUN,DIAMETER_SUN,ECCENTRICITY_SUN);
     planet_t mercury = create_planet(MASS_MERCURY,DIAMETER_MERCURY,ECCENTRICITY_MERCURY);
     planet_t earth = create_planet(MASS_EARTH,DIAMETER_EARTH,ECCENTRICITY_EARTH);
@@ -31,20 +34,21 @@ int main()
     //planet_t neptune = create_planet(MASS_NEPTUNE,DIAMETER_NEPTUNE,ECCENTRICITY_NEPTUNE);
     planet_t venus = create_planet(MASS_VENUS,DIAMETER_VENUS,ECCENTRICITY_VENUS);
     
-    place_planet(&sun,DISTANCE_SUN,SCREEN_WIDTH,SCREEN_HEIGHT);
-    place_planet(&mercury,DISTANCE_MERCURY,SCREEN_WIDTH,SCREEN_HEIGHT);
-    place_planet(&earth,DISTANCE_EARTH,SCREEN_WIDTH,SCREEN_HEIGHT);
-    place_planet(&mars,DISTANCE_MARS,SCREEN_WIDTH,SCREEN_HEIGHT);
-    place_planet(&jupiter,DISTANCE_JUPITER,SCREEN_WIDTH,SCREEN_HEIGHT);
-    //place_planet(&neptune,DISTANCE_NEPTUNE,SCREEN_WIDTH,SCREEN_HEIGHT);
-    place_planet(&venus,DISTANCE_VENUS,SCREEN_WIDTH,SCREEN_HEIGHT);
+    place_planet(&sun,DISTANCE_SUN,SCREEN_WIDTH,SCREEN_HEIGHT,system_size);
+    place_planet(&mercury,DISTANCE_MERCURY,SCREEN_WIDTH,SCREEN_HEIGHT,system_size);
+    place_planet(&earth,DISTANCE_EARTH,SCREEN_WIDTH,SCREEN_HEIGHT,system_size);
+    place_planet(&mars,DISTANCE_MARS,SCREEN_WIDTH,SCREEN_HEIGHT,system_size);
+    place_planet(&jupiter,DISTANCE_JUPITER,SCREEN_WIDTH,SCREEN_HEIGHT,system_size);
+    //place_planet(&neptune,DISTANCE_NEPTUNE,SCREEN_WIDTH,SCREEN_HEIGHT,system_size);
+    place_planet(&venus,DISTANCE_VENUS,SCREEN_WIDTH,SCREEN_HEIGHT,system_size);
 
-    planet_t planets[NUMBER_OF_PLANETS] = {sun,mercury,earth,mars,jupiter,venus};
+    planet_t planets[NUMBER_OF_PLANETS] = {sun,mercury,earth,mars,venus,jupiter};
 
     system_t solarSytem =
         {
             .nb_planets = NUMBER_OF_PLANETS,
-            .planets = planets};
+            .planets = planets,
+            .system_visible_size = system_size};
     // ====
 
 
