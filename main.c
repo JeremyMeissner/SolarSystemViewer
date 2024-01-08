@@ -28,16 +28,18 @@ int main()
     planet_t earth = create_planet(MASS_EARTH,DIAMETER_EARTH,ECCENTRICITY_EARTH);
     planet_t mars = create_planet(MASS_MARS,DIAMETER_MARS,ECCENTRICITY_MARS);
     planet_t jupiter = create_planet(MASS_JUPITER,DIAMETER_JUPITER,ECCENTRICITY_JUPITER);
-    planet_t neptune = create_planet(MASS_NEPTUNE,DIAMETER_NEPTUNE,ECCENTRICITY_NEPTUNE);
+    //planet_t neptune = create_planet(MASS_NEPTUNE,DIAMETER_NEPTUNE,ECCENTRICITY_NEPTUNE);
+    planet_t venus = create_planet(MASS_VENUS,DIAMETER_VENUS,ECCENTRICITY_VENUS);
     
     place_planet(&sun,DISTANCE_SUN,SCREEN_WIDTH,SCREEN_HEIGHT);
     place_planet(&mercury,DISTANCE_MERCURY,SCREEN_WIDTH,SCREEN_HEIGHT);
     place_planet(&earth,DISTANCE_EARTH,SCREEN_WIDTH,SCREEN_HEIGHT);
     place_planet(&mars,DISTANCE_MARS,SCREEN_WIDTH,SCREEN_HEIGHT);
     place_planet(&jupiter,DISTANCE_JUPITER,SCREEN_WIDTH,SCREEN_HEIGHT);
-    place_planet(&neptune,DISTANCE_NEPTUNE,SCREEN_WIDTH,SCREEN_HEIGHT);
+    //place_planet(&neptune,DISTANCE_NEPTUNE,SCREEN_WIDTH,SCREEN_HEIGHT);
+    place_planet(&venus,DISTANCE_VENUS,SCREEN_WIDTH,SCREEN_HEIGHT);
 
-    planet_t planets[NUMBER_OF_PLANETS] = {sun,mercury,earth,mars,jupiter,neptune};
+    planet_t planets[NUMBER_OF_PLANETS] = {sun,mercury,earth,mars,jupiter,venus};
 
     system_t solarSytem =
         {

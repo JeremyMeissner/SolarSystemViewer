@@ -4,7 +4,7 @@
 #define G 6.67e-11
 //Thos two values are used to determin the size of the planets. Have fun and change them to see the effects
 #define MAX_DISPLAY_PLANET_SIZE 100
-#define MIN_DISPLAY_PLANET_SIZE 1
+#define MIN_DISPLAY_PLANET_SIZE 5
 
 // TODO : magic
 
@@ -32,7 +32,7 @@ double normalize(double value, double min_val, double max_val,double min_range, 
 void place_planet(planet_t * planet,double starting_distance_from_sun, int displayWidth, int displayHeight){
     
     //The 0/0 in the solar system is in the top left corner with the sun in the middle being at y and x at the biggest distance possible which is the distance from neptune
-    vec2 pos = vec2_create(DISTANCE_NEPTUNE + starting_distance_from_sun + DIAMETER_SUN / 2.0,DISTANCE_NEPTUNE);
+    vec2 pos = vec2_create(DISTANCE_JUPITER + starting_distance_from_sun + DIAMETER_SUN / 2.0,DISTANCE_JUPITER);
     vec2 display_pos = convert_planet_pos_to_display_pos(displayWidth,displayHeight,pos);
     planet->display_pos = display_pos;
     planet->pos = pos;
@@ -61,17 +61,19 @@ void show_planet(struct gfx_context_t *ctxt, planet_t planet)
 
 vec2 convert_planet_pos_to_display_pos(int displayWidth,int displayHeight,vec2 planet_pos){
     //WE assume that the system cannot be bigger than D_Neptune *2
-    double xRatio = displayWidth / DISTANCE_NEPTUNE;
-    double yRatio = displayHeight / DISTANCE_NEPTUNE;
+    double xRatio = displayWidth / DISTANCE_JUPITER;
+    double yRatio = displayHeight / DISTANCE_JUPITER;
 
-    //printf("Value : %f , newValue = %f\n",planet_pos.x,planet_pos.x * xRatio);
-
-    double system_size = DISTANCE_NEPTUNE * 2;
+    //double system_size = DISTANCE_NEPTUNE * 2;
     //double x = (int)power_scale(planet_pos.x,0,system_size,0,displayWidth,1);
     //double y = (int)power_scale(planet_pos.y,0,system_size,0,displayHeight,1);
 
     double x = ((planet_pos.x * xRatio) / 2);
     double y = ((planet_pos.y * yRatio) / 2);
+
+    //printf("xRatio: %f\n",xRatio);
+    //printf("Value : %f , newValue = %f\n",planet_pos.x,x);
+    //printf("Value : %f , newValue = %f\n",planet_pos.y,y);
 
     //coordinates position = vec2_to_coordinates(planet_pos,displayWidth,displayHeight);
     return vec2_create(x,y);
