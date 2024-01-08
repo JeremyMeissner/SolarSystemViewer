@@ -58,7 +58,7 @@ int main()
 
     planet_t planets[NUMBER_OF_PLANETS] = {sun,mercury,venus,earth,mars,jupiter,saturn,uranus,neptune,pluto};
 
-    system_t solarSytem =
+    system_t solarSystem =
         {
             .nb_planets = NUMBER_OF_PLANETS,
             .planets = planets,
@@ -79,9 +79,12 @@ int main()
         /// ==== Update system here
         gfx_clear(ctxt, COLOR_BLACK);
 
-        update_system(&solarSytem, 0.1);
+        solarSystem.system_visible_size.x -= 500000;
+        solarSystem.system_visible_size.y -= 500000;
 
-        show_system(ctxt, solarSytem);
+        update_system(&solarSystem, 0.1);
+
+        show_system(ctxt, solarSystem);
 
         if (gfx_keypressed() == SDLK_ESCAPE)
         {
