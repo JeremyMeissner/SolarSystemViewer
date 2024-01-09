@@ -63,18 +63,57 @@ planet_t create_planet(double mass, double diameter, double eccentricity)
 
 void show_planet(struct gfx_context_t *ctxt, planet_t planet, int planetID)
 {
-    uint32_t color = MAKE_COLOR(255, 0, 255);
+    uint32_t color;
     switch (planetID)
     {
-    case 0:
-        // its the sun
-        color = MAKE_COLOR(255, 255, 0);
-        draw_full_circle(ctxt, planet.display_pos.x, planet.display_pos.y, 5, color);
-        break;
-    default:
-        draw_full_circle(ctxt, planet.display_pos.x, planet.display_pos.y, planet.display_diameter, color);
-        break;
+        case 0:
+            // its the sun
+            color = MAKE_COLOR(255, 255, 0);
+            draw_full_circle(ctxt, planet.display_pos.x, planet.display_pos.y, 5, color);
+            break;
+        case 1: 
+            // Mercury
+            color = MAKE_COLOR(170,170,170);
+            break;
+        case 2: 
+            // Venus
+            color = MAKE_COLOR(255,235,180);
+            break;
+        case 3: 
+            // Earth
+            color = MAKE_COLOR(135,206,250);
+            break;
+        case 4: 
+            // Mars
+            color = MAKE_COLOR(214, 115, 54);
+            break;
+        case 5: 
+            // Jupiter
+            color = MAKE_COLOR(224, 158, 108);
+            break;
+        case 6: 
+            // Saturn 
+            color = MAKE_COLOR(237, 201, 175);
+            break;
+        case 7: 
+            // Uranus
+            color = MAKE_COLOR(144, 206, 233);
+            break;
+        case 8: 
+            // Neptune
+            color = MAKE_COLOR(70, 105, 179);
+            break;
+        case 9: 
+            // Pluto
+            color = MAKE_COLOR(120, 134, 150);
+            break;
+        default:
+            color = MAKE_COLOR(255, 0, 255);
+            break;
     }
+
+    if(planetID != 0)
+        draw_full_circle(ctxt, planet.display_pos.x, planet.display_pos.y, planet.display_diameter, color);
 }
 
 vec2 convert_planet_pos_to_display_pos(int displayWidth, int displayHeight, vec2 planet_pos, vec2 system_size, vec2 camera_offset)
