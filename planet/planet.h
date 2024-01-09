@@ -20,18 +20,18 @@
 #define MASS_SATURN 568e24
 #define MASS_URANUS 86.8e24
 
-//In KM
+//In aphelion in KM (Furthest point from the sun)
 #define DISTANCE_SUN 0
-#define DISTANCE_MERCURY 57.9e6
-#define DISTANCE_VENUS 108.2e6
-#define DISTANCE_EARTH 149.6e6
-#define DISTANCE_MOON 0.384e6 //Note that the distance is not from the sun but from the surface of the earth
-#define DISTANCE_MARS 228e6
-#define DISTANCE_JUPITER 778.5e6
-#define DISTANCE_SATURN 1432e6
-#define DISTANCE_URANUS 2867e6
-#define DISTANCE_NEPTUNE 4515e6
-#define DISTANCE_PLUTO 5906.4e6
+#define DISTANCE_MERCURY 69.8e6
+#define DISTANCE_VENUS 108.9e6
+#define DISTANCE_EARTH 152.1e6
+#define DISTANCE_MOON 0.406e6 //Note that the distance is not from the sun but from the surface of the earth
+#define DISTANCE_MARS 249.3e6
+#define DISTANCE_JUPITER 816.4e6
+#define DISTANCE_SATURN 1506.5e6
+#define DISTANCE_URANUS 3001.4e6
+#define DISTANCE_NEPTUNE 4558.9e6
+#define DISTANCE_PLUTO 7375.9e6
 
 //In KM
 #define DIAMETER_SUN 1392700

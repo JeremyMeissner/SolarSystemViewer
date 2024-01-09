@@ -3,8 +3,8 @@
 
 #define G 6.67e-11
 // Thos two values are used to determin the size of the planets. Have fun and change them to see the effects
-#define MAX_DISPLAY_PLANET_SIZE 100
-#define MIN_DISPLAY_PLANET_SIZE 2
+#define MAX_DISPLAY_PLANET_SIZE 15
+#define MIN_DISPLAY_PLANET_SIZE 1
 
 // Only a distance from sun so the system is actually MAX_SYSTEM_SIZE * 2
 // WE assume that the system cannot be bigger than DISTANCE_PLUTO * 1.5
@@ -51,7 +51,7 @@ planet_t create_planet(double mass, double diameter, double eccentricity)
     vec2 startPos = vec2_create(0, 0);
     // You an play with the power factor to controll the ratio between the size of the biggest element and the planets
     double power_factor = 0.8;
-    double display_diameter = power_scale(diameter, DIAMETER_MOON, DIAMETER_SUN, MIN_DISPLAY_PLANET_SIZE, MAX_DISPLAY_PLANET_SIZE, power_factor);
+    double display_diameter = power_scale(diameter, 0, DIAMETER_JUPITER, MIN_DISPLAY_PLANET_SIZE, MAX_DISPLAY_PLANET_SIZE, power_factor);
     return (planet_t){
         .mass = mass,
         .diameter = diameter,
