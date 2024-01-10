@@ -106,8 +106,10 @@ void show_system(struct gfx_context_t *ctxt, system_t system, vec2 camera_offset
     for (uint32_t i = 0; i < system.nb_planets; i++)
     {
         planet_t planet = system.planets[i];
-        system.planets[i].display_pos = convert_planet_pos_to_display_pos(ctxt->width, ctxt->height, planet.pos, system.system_visible_size, camera_offset);
-        show_planet(ctxt, planet, i);
+        vec2 display_pos = convert_planet_pos_to_display_pos(ctxt->width, ctxt->height, planet.pos, system.system_visible_size, camera_offset);
+        system.planets[i].display_pos = display_pos;
+        if(display_pos.x > 0 && display_pos.y > 0)
+            show_planet(ctxt, planet, i);
     }
 }
 
