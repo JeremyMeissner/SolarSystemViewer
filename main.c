@@ -28,9 +28,9 @@ int main()
     // Includes up to mars
     //vec2 system_visible_size = vec2_create(DISTANCE_MARS * 2.5, DISTANCE_MARS * 2.5);
     // Includes up to Jupiter
-    // vec2 system_visible_size = vec2_create(DISTANCE_JUPITER * 2.2,DISTANCE_JUPITER *2.2);
+    vec2 system_visible_size = vec2_create(DISTANCE_JUPITER * 2.2,DISTANCE_JUPITER *2.2);
     // Includes all planets
-    vec2 system_visible_size = vec2_create(DISTANCE_PLUTO * 2.2,DISTANCE_PLUTO * 2.2);
+    //vec2 system_visible_size = vec2_create(DISTANCE_PLUTO * 2.2,DISTANCE_PLUTO * 2.2);
 
     vec2 camera_offset = vec2_create(0, 0);
 
@@ -95,6 +95,7 @@ int main()
 
         // draw_line(ctxt, 0, 0, SCREEN_HEIGHT, SCREEN_HEIGHT, MAKE_COLOR(255, 255, 255));
         show_system(ctxt, solarSystem, camera_offset);
+        //printf("Camera offset : %f,%f\n",camera_offset.x,camera_offset.y);
 
         int camera_increment = 5;
 
@@ -123,7 +124,6 @@ int main()
                     break;
                 case 'J':
                 case 'j':
-
                     solarSystem.system_visible_size.x -= 500000000;
                     solarSystem.system_visible_size.y -= 500000000;
                     break;
@@ -206,8 +206,11 @@ int main()
 
             if (needToSnap)
             {
-                vec2 pos = convert_planet_pos_to_display_pos(SCREEN_WIDTH, SCREEN_HEIGHT, planets[current_planet_focus].pos, system_visible_size, vec2_create(0, 0));
-                camera_offset = vec2_create(SCREEN_WIDTH / 2 - pos.x, SCREEN_HEIGHT / 2 - pos.y);
+                //printf("Planet position: %f,%f\n",planets[current_planet_focus].pos.x,planets[current_planet_focus].pos.y);
+                vec2 pos = convert_planet_pos_to_display_pos(SCREEN_WIDTH, SCREEN_HEIGHT, planets[current_planet_focus].pos, solarSystem.system_visible_size, vec2_create(0,0));
+                //printf("Planet position: %f,%f\n",pos.x,pos.y);
+                //camera_offset = vec2_create(SCREEN_WIDTH / 2 - pos.x, SCREEN_HEIGHT / 2 - pos.y);
+                camera_offset = vec2_create(SCREEN_WIDTH / 2 - pos.x,SCREEN_HEIGHT / 2 - pos.y);
             }
         }
     }
