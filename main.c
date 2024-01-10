@@ -119,8 +119,7 @@ int main()
             {
                 switch (pressedKey)
                 {
-                case 'P':
-                case 'p':
+                case SDLK_SPACE:
                     isPaused = !isPaused;
                     break;
                 case 'T':
