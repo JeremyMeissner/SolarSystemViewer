@@ -11,7 +11,10 @@
 // WE assume that the system cannot be bigger than DISTANCE_PLUTO * 1.5
 #define MAX_SYSTEM_SIZE DISTANCE_PLUTO * 1.5
 
-// TODO : magic
+#define MAX_PLANET_HISTORY 500
+#define DELTA_BEFORE_UPDATE 50
+
+int delta_update_count = 0;
 
 /* One method to scale planets */
 double log_planet_scaling(double planet_mass, double smallest_mass, double biggest_mass, double min_output_size, double max_output_size)
@@ -53,12 +56,15 @@ planet_t create_planet(double mass, double diameter, double eccentricity, double
     // You an play with the power factor to controll the ratio between the size of the biggest element and the planets
     double power_factor = 0.8;
     double display_diameter = power_scale(diameter, 0, DIAMETER_JUPITER, MIN_DISPLAY_PLANET_SIZE, MAX_DISPLAY_PLANET_SIZE, power_factor);
+
     return (planet_t){
         .mass = mass,
         .diameter = diameter,
         .display_diameter = display_diameter,
         .original_display_diameter = display_diameter,
         .pos = startPos,
+        .all_prev_pos = malloc(sizeof(vec2) * MAX_PLANET_HISTORY),
+        .all_prev_pos_index = -1,
         .eccentricity = eccentricity,
         .semi_major_axis = semi_major_axis,
         .color = color,
@@ -69,13 +75,13 @@ void show_planet(struct gfx_context_t *ctxt, planet_t planet, int planetID)
 {
     switch (planetID)
     {
-        case 0:
-            //The sun is hard coded to not be too big
-            draw_full_circle(ctxt, planet.display_pos.x, planet.display_pos.y, planet.display_diameter / 10, planet.color);
-            break;
-        default:
-            draw_full_circle(ctxt, planet.display_pos.x, planet.display_pos.y, planet.display_diameter, planet.color);
-            break;
+    case 0:
+        // The sun is hard coded to not be too big
+        draw_full_circle(ctxt, planet.display_pos.x, planet.display_pos.y, planet.display_diameter / 10, planet.color);
+        break;
+    default:
+        draw_full_circle(ctxt, planet.display_pos.x, planet.display_pos.y, planet.display_diameter, planet.color);
+        break;
     }
 }
 
@@ -108,7 +114,7 @@ void show_system(struct gfx_context_t *ctxt, system_t system, vec2 camera_offset
         planet_t planet = system.planets[i];
         vec2 display_pos = convert_planet_pos_to_display_pos(ctxt->width, ctxt->height, planet.pos, system.system_visible_size, camera_offset);
         system.planets[i].display_pos = display_pos;
-        if(display_pos.x > 0 && display_pos.y > 0)
+        if (display_pos.x > 0 && display_pos.y > 0)
             show_planet(ctxt, planet, i);
     }
 }
@@ -158,10 +164,73 @@ void update_system(system_t *system, double delta_t)
             planet->prec_pos = planet->pos;
             planet->pos = Xptdr;
         }
+
+        delta_update_count++;
+
+        if (delta_update_count == DELTA_BEFORE_UPDATE)
+        {
+
+            save_pos_history(planet);
+            delta_update_count = 0;
+        }
+    }
+}
+
+void show_pos_history_with_lines(system_t system, struct gfx_context_t *ctxt, vec2 camera_offset)
+{
+    for (uint32_t i = 0; i < system.nb_planets; i++)
+    {
+        planet_t planet = system.planets[i];
+
+        if (planet.all_prev_pos_index == -1)
+            continue;
+
+        for (int j = 0; j < planet.all_prev_pos_index; j++)
+        {
+
+            vec2 pos = planet.all_prev_pos[j];
+            vec2 display_pos = convert_planet_pos_to_display_pos(ctxt->width, ctxt->height, pos, system.system_visible_size, camera_offset);
+
+            vec2 next_pos = planet.all_prev_pos[j + 1];
+            vec2 next_display_pos = convert_planet_pos_to_display_pos(ctxt->width, ctxt->height, next_pos, system.system_visible_size, camera_offset);
+
+            draw_line(ctxt, display_pos.x, display_pos.y, next_display_pos.x, next_display_pos.y, planet.color);
+
+            // printf("Drawing line from %f,%f to %f,%f\n", display_pos.x, display_pos.y, next_display_pos.x, next_display_pos.y);
+        }
+    }
+}
+
+void save_pos_history(planet_t *planet)
+{
+    // save pos histordy, handle if the array is full, we remove the first element and shift the array
+    if (planet->all_prev_pos_index == -1)
+    {
+        planet->all_prev_pos_index = 0;
+        planet->all_prev_pos[planet->all_prev_pos_index] = planet->pos;
+    }
+    else
+    {
+        if (planet->all_prev_pos_index == MAX_PLANET_HISTORY - 1)
+        {
+            for (int i = 0; i < MAX_PLANET_HISTORY - 1; i++)
+            {
+                planet->all_prev_pos[i] = planet->all_prev_pos[i + 1];
+            }
+            planet->all_prev_pos[planet->all_prev_pos_index] = planet->pos;
+        }
+        else
+        {
+            planet->all_prev_pos_index++;
+            planet->all_prev_pos[planet->all_prev_pos_index] = planet->pos;
+        }
     }
 }
 
 void free_system(system_t *system)
 {
-    free(system->planets);
+    for (uint32_t i = 0; i < system->nb_planets; i++)
+    {
+        free(system->planets[i].all_prev_pos);
+    }
 }

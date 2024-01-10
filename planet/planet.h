@@ -77,10 +77,18 @@ typedef struct _planet
     double eccentricity;
     double semi_major_axis;
     uint32_t color;
+    vec2 *all_prev_pos;
+    int all_prev_pos_index;
     vec2 display_pos;
     vec2 pos;      // x(t)
     vec2 prec_pos; // x(t - dt)
+    // double all_prec_pos_index;
 } planet_t;
+
+// typedef struct _previous_pos
+// {
+
+// } previous_pos_t
 
 typedef struct _system
 {
@@ -100,5 +108,7 @@ void update_system(system_t *system, double delta_t);
 void free_system(system_t *system);
 void place_planet(planet_t *planet, double starting_distance_from_sun, int widthOfSystem, int heightOfSystem, vec2 system_size);
 vec2 convert_planet_pos_to_display_pos(int displayWidth, int displayHeight, vec2 planetPos, vec2 system_size, vec2 camera_offset);
+void save_pos_history(planet_t *planet);
+void show_pos_history_with_lines(system_t system, struct gfx_context_t *ctxt, vec2 camera_offset);
 
 #endif

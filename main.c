@@ -26,11 +26,11 @@ int main()
     // If you change this you techincally zoom
 
     // Includes up to mars
-    //vec2 default_system_visible_size = vec2_create(DISTANCE_MARS * 2.5, DISTANCE_MARS * 2.5);
+    // vec2 default_system_visible_size = vec2_create(DISTANCE_MARS * 2.5, DISTANCE_MARS * 2.5);
     // Includes up to Jupiter
-    vec2 default_system_visible_size = vec2_create(DISTANCE_JUPITER * 2.2,DISTANCE_JUPITER * 2.2);
+    vec2 default_system_visible_size = vec2_create(DISTANCE_JUPITER * 2.2, DISTANCE_JUPITER * 2.2);
     // Includes all planets
-    //vec2 default_system_visible_size = vec2_create(DISTANCE_PLUTO * 2.2,DISTANCE_PLUTO * 2.2);
+    // vec2 default_system_visible_size = vec2_create(DISTANCE_PLUTO * 2.2,DISTANCE_PLUTO * 2.2);
 
     vec2 system_visible_size = default_system_visible_size;
     vec2 camera_offset = vec2_create(0, 0);
@@ -76,6 +76,8 @@ int main()
     bool needToSnap = true;
     bool needToUpdatePlanetsDiameters = true;
 
+    bool isTrailEnabled = true;
+
     // initialize_font();
     while (true)
     {
@@ -89,7 +91,12 @@ int main()
 
         // draw_line(ctxt, 0, 0, SCREEN_HEIGHT, SCREEN_HEIGHT, MAKE_COLOR(255, 255, 255));
         show_system(ctxt, solarSystem, camera_offset);
-        //printf("Camera offset : %f,%f\n",camera_offset.x,camera_offset.y);
+
+        if (isTrailEnabled)
+        {
+            show_pos_history_with_lines(solarSystem, ctxt, camera_offset);
+        }
+        // printf("Camera offset : %f,%f\n",camera_offset.x,camera_offset.y);
 
         int camera_increment = 5;
         double zoom_increment = 0.1;
@@ -106,20 +113,24 @@ int main()
             {
                 switch (pressedKey)
                 {
+                case 'T':
+                case 't':
+                    isTrailEnabled = !isTrailEnabled;
+                    break;
                 case 'U':
                 case 'u':
-                    //Zoom out by 10%
-                    if(solarSystem.system_visible_size.y < default_system_visible_size.y * 100)
+                    // Zoom out by 10%
+                    if (solarSystem.system_visible_size.y < default_system_visible_size.y * 100)
                         solarSystem.system_visible_size.x += solarSystem.system_visible_size.x * zoom_increment;
-                    if(solarSystem.system_visible_size.y < default_system_visible_size.y * 100)
+                    if (solarSystem.system_visible_size.y < default_system_visible_size.y * 100)
                         solarSystem.system_visible_size.y += solarSystem.system_visible_size.y * zoom_increment;
                     needToUpdatePlanetsDiameters = true;
                     break;
                 case 'J':
                 case 'j':
-                    if(solarSystem.system_visible_size.x > default_system_visible_size.x / 100)
+                    if (solarSystem.system_visible_size.x > default_system_visible_size.x / 100)
                         solarSystem.system_visible_size.x -= solarSystem.system_visible_size.x * zoom_increment;
-                    if(solarSystem.system_visible_size.y > default_system_visible_size.y / 100)
+                    if (solarSystem.system_visible_size.y > default_system_visible_size.y / 100)
                         solarSystem.system_visible_size.y -= solarSystem.system_visible_size.y * zoom_increment;
                     needToUpdatePlanetsDiameters = true;
                     break;
@@ -202,24 +213,26 @@ int main()
 
             if (needToSnap)
             {
-                //printf("Planet position: %f,%f\n",planets[current_planet_focus].pos.x,planets[current_planet_focus].pos.y);
-                vec2 pos = convert_planet_pos_to_display_pos(SCREEN_WIDTH, SCREEN_HEIGHT, planets[current_planet_focus].pos, solarSystem.system_visible_size, vec2_create(0,0));
-                //printf("Planet position: %f,%f\n",pos.x,pos.y);
-                //camera_offset = vec2_create(SCREEN_WIDTH / 2 - pos.x, SCREEN_HEIGHT / 2 - pos.y);
-                camera_offset = vec2_create(SCREEN_WIDTH / 2 - pos.x,SCREEN_HEIGHT / 2 - pos.y);
+                // printf("Planet position: %f,%f\n",planets[current_planet_focus].pos.x,planets[current_planet_focus].pos.y);
+                vec2 pos = convert_planet_pos_to_display_pos(SCREEN_WIDTH, SCREEN_HEIGHT, planets[current_planet_focus].pos, solarSystem.system_visible_size, vec2_create(0, 0));
+                // printf("Planet position: %f,%f\n",pos.x,pos.y);
+                // camera_offset = vec2_create(SCREEN_WIDTH / 2 - pos.x, SCREEN_HEIGHT / 2 - pos.y);
+                camera_offset = vec2_create(SCREEN_WIDTH / 2 - pos.x, SCREEN_HEIGHT / 2 - pos.y);
             }
-            if(needToUpdatePlanetsDiameters){
+            if (needToUpdatePlanetsDiameters)
+            {
                 needToUpdatePlanetsDiameters = false;
 
                 double ratio = default_system_visible_size.x / solarSystem.system_visible_size.x;
-                for(int i = 0; i < NUMBER_OF_PLANETS;i++){
+                for (int i = 0; i < NUMBER_OF_PLANETS; i++)
+                {
                     solarSystem.planets[i].display_diameter = solarSystem.planets[i].original_display_diameter * ratio;
                 }
             }
         }
     }
 
-    // free_system(&solarSytem);
+    free_system(&solarSystem);
     gfx_destroy(ctxt);
     return EXIT_SUCCESS;
 }
