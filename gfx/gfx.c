@@ -191,3 +191,28 @@ void draw_full_circle(struct gfx_context_t *ctxt, uint32_t c_column, uint32_t c_
     if (r > 0)
         draw_full_circle(ctxt, c_column, c_row, r - 1, color);
 }
+
+void draw_line(struct gfx_context_t *ctxt, int x0, int y0, int x1, int y1, uint32_t color)
+{
+    int dx = abs(x1 - x0), sx = x0 < x1 ? 1 : -1;
+    int dy = -abs(y1 - y0), sy = y0 < y1 ? 1 : -1;
+    int err = dx + dy, e2; /* error value e_xy */
+
+    while (1)
+    {
+        gfx_putpixel(ctxt, x0, y0, color);
+        if (x0 == x1 && y0 == y1)
+            break;
+        e2 = 2 * err;
+        if (e2 >= dy)
+        { /* e_xy+e_x > 0 */
+            err += dy;
+            x0 += sx;
+        }
+        if (e2 <= dx)
+        { /* e_xy+e_y < 0 */
+            err += dx;
+            y0 += sy;
+        }
+    }
+}

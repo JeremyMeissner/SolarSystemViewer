@@ -41,4 +41,5 @@ extern void gfx_present(struct gfx_context_t *ctxt);
 extern SDL_Keycode gfx_keypressed();
 extern void draw_full_circle(struct gfx_context_t *ctxt, uint32_t c_column, uint32_t c_row, uint32_t r, uint32_t color);
 // void gfx_render_text(struct gfx_context_t *ctxt, const char *text, int x, int y);
+extern void draw_line(struct gfx_context_t *ctxt, int x0, int y0, int x1, int y1, uint32_t color);
 #endif

@@ -46,7 +46,7 @@ void place_planet(planet_t *planet, double starting_distance_from_sun, int displ
     planet->pos = pos;
 }
 
-planet_t create_planet(double mass, double diameter, double eccentricity)
+planet_t create_planet(double mass, double diameter, double eccentricity, double semi_major_axis, uint32_t color)
 {
     vec2 startPos = vec2_create(0, 0);
     // You an play with the power factor to controll the ratio between the size of the biggest element and the planets
@@ -58,21 +58,21 @@ planet_t create_planet(double mass, double diameter, double eccentricity)
         .display_diameter = display_diameter,
         .pos = startPos,
         .eccentricity = eccentricity,
+        .semi_major_axis = semi_major_axis,
+        .color = color,
         .prec_pos = vec2_create(-1, -1)};
 }
 
 void show_planet(struct gfx_context_t *ctxt, planet_t planet, int planetID)
 {
-    uint32_t color = MAKE_COLOR(255, 0, 255);
     switch (planetID)
     {
     case 0:
-        // its the sun
-        color = MAKE_COLOR(255, 255, 0);
-        draw_full_circle(ctxt, planet.display_pos.x, planet.display_pos.y, 5, color);
+        // The sun, reduce diameter
+        draw_full_circle(ctxt, planet.display_pos.x, planet.display_pos.y, 5, planet.color);
         break;
     default:
-        draw_full_circle(ctxt, planet.display_pos.x, planet.display_pos.y, planet.display_diameter, color);
+        draw_full_circle(ctxt, planet.display_pos.x, planet.display_pos.y, planet.display_diameter, planet.color);
         break;
     }
 }
@@ -138,29 +138,14 @@ void update_system(system_t *system, double delta_t)
         if (planet->prec_pos.x == -1)
         {
             // First time
-            vec2 Vp_0 = vec2_create(0, 0);
-            for (uint32_t j = 0; j < system->nb_planets; j++)
-            {
-                // We add the force of the planets
-                if (j != i)
-                {
-                    vec2 diff_planet = vec2_create(planet->pos.x - system->planets[j].pos.x, planet->pos.y - system->planets[j].pos.y);
-                    vec2 rp = vec2_create(-diff_planet.y, diff_planet.x);
-                    double distance_from_planet = sqrt(pow(planet->pos.x - system->planets[j].pos.x, 2) + pow(planet->pos.y - system->planets[j].pos.y, 2));
-                    vec2 Vp_inter = vec2_mul(sqrt(G * system->planets[j].mass * (1 + planet->eccentricity) / (distance_from_planet * (1 - planet->eccentricity))), vec2_normalize(rp));
+            vec2 diff_planet = vec2_create(planet->pos.x - sun->pos.x, planet->pos.y - sun->pos.y);
+            vec2 rp = vec2_create(-diff_planet.y, diff_planet.x);
+            vec2 Vp_0 = vec2_mul(sqrt(G * sun->mass * (1 + planet->eccentricity) / (planet->semi_major_axis * (1 - planet->eccentricity))), vec2_normalize(rp));
 
-                    Vp_0 = vec2_add(Vp_0, Vp_inter);
-                }
-            }
+            vec2 Xptdr = vec2_add(vec2_add(planet->pos, vec2_mul(delta_t, Vp_0)), vec2_mul(0.5 * pow(delta_t, 2), ap));
 
-            vec2 Xpdtr = vec2_add(vec2_add(planet->pos, vec2_mul(delta_t, Vp_0)), vec2_mul(0.5 * pow(delta_t, 2), ap));
             planet->prec_pos = planet->pos;
-            planet->pos = Xpdtr;
-
-            // printf("\n old/new\n");
-            // vec2_print(planet->prec_pos);
-            // printf("VS \n");
-            // vec2_print(Xpdtr);
+            planet->pos = Xptdr;
         }
         else
         {
