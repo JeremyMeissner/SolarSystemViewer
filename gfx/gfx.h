@@ -1,7 +1,7 @@
 #ifndef _GFX_H_
 #define _GFX_H_
 
-#include <SDL_ttf.h>
+//#include <SDL_ttf.h>
 #include <SDL2/SDL.h>
 #include <stdbool.h>
 #include <stdint.h>

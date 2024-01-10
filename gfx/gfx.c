@@ -54,7 +54,7 @@ struct gfx_context_t *gfx_create(char *title, uint32_t width, uint32_t height)
     //     fprintf(stderr, "Failed to load font: %s\n", TTF_GetError());
     //     goto error;
     // }
-    SDL_ShowCursor(SDL_DISABLE);
+    SDL_ShowCursor(SDL_ENABLE);
     gfx_clear(ctxt, COLOR_BLACK);
     return ctxt;
 
