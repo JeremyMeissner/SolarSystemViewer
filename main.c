@@ -213,8 +213,6 @@ int main()
 
                 double ratio = default_system_visible_size.x / solarSystem.system_visible_size.x;
                 for(int i = 0; i < NUMBER_OF_PLANETS;i++){
-                    printf("ratio: %f\n",ratio);
-                    //printf("old : %f",)
                     solarSystem.planets[i].display_diameter = solarSystem.planets[i].original_display_diameter * ratio;
                 }
             }
