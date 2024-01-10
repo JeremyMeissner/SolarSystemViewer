@@ -5,6 +5,7 @@
 // Thos two values are used to determin the size of the planets. Have fun and change them to see the effects
 #define MAX_DISPLAY_PLANET_SIZE 15
 #define MIN_DISPLAY_PLANET_SIZE 1
+#define SUN_DEFAULT_SIZE 5
 
 // Only a distance from sun so the system is actually MAX_SYSTEM_SIZE * 2
 // WE assume that the system cannot be bigger than DISTANCE_PLUTO * 1.5
@@ -56,6 +57,7 @@ planet_t create_planet(double mass, double diameter, double eccentricity, double
         .mass = mass,
         .diameter = diameter,
         .display_diameter = display_diameter,
+        .original_display_diameter = display_diameter,
         .pos = startPos,
         .eccentricity = eccentricity,
         .semi_major_axis = semi_major_axis,
@@ -67,13 +69,13 @@ void show_planet(struct gfx_context_t *ctxt, planet_t planet, int planetID)
 {
     switch (planetID)
     {
-    case 0:
-        // The sun, reduce diameter
-        draw_full_circle(ctxt, planet.display_pos.x, planet.display_pos.y, 5, planet.color);
-        break;
-    default:
-        draw_full_circle(ctxt, planet.display_pos.x, planet.display_pos.y, planet.display_diameter, planet.color);
-        break;
+        case 0:
+            //The sun is hard coded to not be too big
+            draw_full_circle(ctxt, planet.display_pos.x, planet.display_pos.y, SUN_DEFAULT_SIZE, planet.color);
+            break;
+        default:
+            draw_full_circle(ctxt, planet.display_pos.x, planet.display_pos.y, planet.display_diameter, planet.color);
+            break;
     }
 }
 

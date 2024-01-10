@@ -26,12 +26,13 @@ int main()
     // If you change this you techincally zoom
 
     // Includes up to mars
-    //vec2 system_visible_size = vec2_create(DISTANCE_MARS * 2.5, DISTANCE_MARS * 2.5);
+    //vec2 default_system_visible_size = vec2_create(DISTANCE_MARS * 2.5, DISTANCE_MARS * 2.5);
     // Includes up to Jupiter
-    vec2 system_visible_size = vec2_create(DISTANCE_JUPITER * 2.2,DISTANCE_JUPITER *2.2);
+    vec2 default_system_visible_size = vec2_create(DISTANCE_JUPITER * 2.2,DISTANCE_JUPITER * 2.2);
     // Includes all planets
-    //vec2 system_visible_size = vec2_create(DISTANCE_PLUTO * 2.2,DISTANCE_PLUTO * 2.2);
+    //vec2 default_system_visible_size = vec2_create(DISTANCE_PLUTO * 2.2,DISTANCE_PLUTO * 2.2);
 
+    vec2 system_visible_size = default_system_visible_size;
     vec2 camera_offset = vec2_create(0, 0);
 
     // use most closest color to planet
@@ -73,6 +74,7 @@ int main()
     /* DEBUG PLAYGROUND END */
     int current_planet_focus = 0;
     bool needToSnap = true;
+    bool needToUpdatePlanetsDiameters = true;
 
     // initialize_font();
     while (true)
@@ -83,14 +85,6 @@ int main()
         // gfx_render_text(ctxt, "Hello worl", 50, 50);
         gfx_clear(ctxt, COLOR_BLACK);
 
-        // solarSystem.system_visible_size.x -= 500000;
-        // solarSystem.system_visible_size.y -= 500000;
-
-        // camera_offset.x -= 0.1;
-        // camera_offset.y -= 0.1;
-        // solarSystem.system_visible_size.x += 500000;
-        // solarSystem.system_visible_size.y += 500000;
-
         update_system(&solarSystem, 0.1);
 
         // draw_line(ctxt, 0, 0, SCREEN_HEIGHT, SCREEN_HEIGHT, MAKE_COLOR(255, 255, 255));
@@ -98,12 +92,7 @@ int main()
         //printf("Camera offset : %f,%f\n",camera_offset.x,camera_offset.y);
 
         int camera_increment = 5;
-
-        // int mouseX, mouseY;
-        // Uint32 state = SDL_GetMouseState(&MouseX, &MouseY);
-        // SDL_GetRelativeMouseState(&mouseX, &mouseY);
-        // printf("X: %d, Y:%d\n",mouseX,mouseY);
-        // printf("Pos: %f:%f\n",pos.x,pos.y);
+        double zoom_increment = 0.1;
 
         int pressedKey = gfx_keypressed();
         if (pressedKey == 27)
@@ -119,13 +108,20 @@ int main()
                 {
                 case 'U':
                 case 'u':
-                    solarSystem.system_visible_size.x += 500000000;
-                    solarSystem.system_visible_size.y += 500000000;
+                    //Zoom out by 10%
+                    if(solarSystem.system_visible_size.y < default_system_visible_size.y * 100)
+                        solarSystem.system_visible_size.x += solarSystem.system_visible_size.x * zoom_increment;
+                    if(solarSystem.system_visible_size.y < default_system_visible_size.y * 100)
+                        solarSystem.system_visible_size.y += solarSystem.system_visible_size.y * zoom_increment;
+                    needToUpdatePlanetsDiameters = true;
                     break;
                 case 'J':
                 case 'j':
-                    solarSystem.system_visible_size.x -= 500000000;
-                    solarSystem.system_visible_size.y -= 500000000;
+                    if(solarSystem.system_visible_size.x > default_system_visible_size.x / 100)
+                        solarSystem.system_visible_size.x -= solarSystem.system_visible_size.x * zoom_increment;
+                    if(solarSystem.system_visible_size.y > default_system_visible_size.y / 100)
+                        solarSystem.system_visible_size.y -= solarSystem.system_visible_size.y * zoom_increment;
+                    needToUpdatePlanetsDiameters = true;
                     break;
                 case '0':
                     current_planet_focus = 0;
@@ -211,6 +207,16 @@ int main()
                 //printf("Planet position: %f,%f\n",pos.x,pos.y);
                 //camera_offset = vec2_create(SCREEN_WIDTH / 2 - pos.x, SCREEN_HEIGHT / 2 - pos.y);
                 camera_offset = vec2_create(SCREEN_WIDTH / 2 - pos.x,SCREEN_HEIGHT / 2 - pos.y);
+            }
+            if(needToUpdatePlanetsDiameters){
+                needToUpdatePlanetsDiameters = false;
+
+                double ratio = default_system_visible_size.x / solarSystem.system_visible_size.x;
+                for(int i = 0; i < NUMBER_OF_PLANETS;i++){
+                    printf("ratio: %f\n",ratio);
+                    //printf("old : %f",)
+                    solarSystem.planets[i].display_diameter = solarSystem.planets[i].original_display_diameter * ratio;
+                }
             }
         }
     }

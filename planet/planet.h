@@ -72,6 +72,7 @@ typedef struct _planet
 {
     double mass;
     double diameter;
+    double original_display_diameter;
     double display_diameter;
     double eccentricity;
     double semi_major_axis;
