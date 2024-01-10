@@ -3,7 +3,7 @@
 
 #define G 6.67e-11
 // Thos two values are used to determin the size of the planets. Have fun and change them to see the effects
-#define MAX_DISPLAY_PLANET_SIZE 15
+#define MAX_DISPLAY_PLANET_SIZE 25
 #define MIN_DISPLAY_PLANET_SIZE 1
 #define SUN_DEFAULT_SIZE 5
 
@@ -71,7 +71,7 @@ void show_planet(struct gfx_context_t *ctxt, planet_t planet, int planetID)
     {
         case 0:
             //The sun is hard coded to not be too big
-            draw_full_circle(ctxt, planet.display_pos.x, planet.display_pos.y, SUN_DEFAULT_SIZE, planet.color);
+            draw_full_circle(ctxt, planet.display_pos.x, planet.display_pos.y, planet.display_diameter / 10, planet.color);
             break;
         default:
             draw_full_circle(ctxt, planet.display_pos.x, planet.display_pos.y, planet.display_diameter, planet.color);
