@@ -78,6 +78,8 @@ int main()
 
     bool isTrailEnabled = true;
 
+    bool isPaused = false;
+
     // initialize_font();
     while (true)
     {
@@ -87,15 +89,19 @@ int main()
         // gfx_render_text(ctxt, "Hello worl", 50, 50);
         gfx_clear(ctxt, COLOR_BLACK);
 
-        update_system(&solarSystem, 0.1);
+        if (!isPaused)
+        {
 
-        // draw_line(ctxt, 0, 0, SCREEN_HEIGHT, SCREEN_HEIGHT, MAKE_COLOR(255, 255, 255));
-        show_system(ctxt, solarSystem, camera_offset);
+            update_system(&solarSystem, 0.1);
+        }
 
         if (isTrailEnabled)
         {
             show_pos_history_with_lines(solarSystem, ctxt, camera_offset);
         }
+        // draw_line(ctxt, 0, 0, SCREEN_HEIGHT, SCREEN_HEIGHT, MAKE_COLOR(255, 255, 255));
+        show_system(ctxt, solarSystem, camera_offset);
+
         // printf("Camera offset : %f,%f\n",camera_offset.x,camera_offset.y);
 
         int camera_increment = 5;
@@ -113,6 +119,10 @@ int main()
             {
                 switch (pressedKey)
                 {
+                case 'P':
+                case 'p':
+                    isPaused = !isPaused;
+                    break;
                 case 'T':
                 case 't':
                     isTrailEnabled = !isTrailEnabled;
