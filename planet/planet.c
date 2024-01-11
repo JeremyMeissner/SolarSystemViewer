@@ -53,9 +53,9 @@ void place_planet(planet_t *planet, double starting_distance_from_sun, int displ
 planet_t create_planet(double mass, double diameter, double eccentricity, double semi_major_axis, uint32_t color)
 {
     vec2 startPos = vec2_create(0, 0);
-    // You an play with the power factor to controll the ratio between the size of the biggest element and the planets
-    double power_factor = 0.8;
-    double display_diameter = power_scale(diameter, 0, DIAMETER_JUPITER, MIN_DISPLAY_PLANET_SIZE, MAX_DISPLAY_PLANET_SIZE, power_factor);
+    //double display_diameter = power_scale(diameter, 0, DIAMETER_JUPITER, MIN_DISPLAY_PLANET_SIZE, MAX_DISPLAY_PLANET_SIZE, power_factor);
+
+    double display_diameter = normalize(diameter,0,DIAMETER_SUN,0,MAX_DISPLAY_PLANET_SIZE);
 
     return (planet_t){
         .mass = mass,
@@ -71,18 +71,33 @@ planet_t create_planet(double mass, double diameter, double eccentricity, double
         .prec_pos = vec2_create(-1, -1)};
 }
 
+void toggle_realist_mode(bool realist, system_t* system){
+    if(realist){
+        for(uint32_t i = 0; i < system->nb_planets;i++){
+            planet_t *planet = &system->planets[i];
+            double display_diameter = normalize(planet->diameter,0,DIAMETER_SUN,0,MAX_DISPLAY_PLANET_SIZE);
+            planet->original_display_diameter = display_diameter;
+        }
+    }else{
+        for(uint32_t i = 0; i < system->nb_planets;i++){
+            planet_t *planet = &system->planets[i];
+            if(i == 0){
+                double display_diameter = power_scale(planet->diameter, 0, DIAMETER_JUPITER, MIN_DISPLAY_PLANET_SIZE, MAX_DISPLAY_PLANET_SIZE, 0.8) / 10;
+                planet->original_display_diameter = display_diameter;
+                printf("resizing the sun\n");
+            }else{
+                double display_diameter = power_scale(planet->diameter, 0, DIAMETER_JUPITER, MIN_DISPLAY_PLANET_SIZE, MAX_DISPLAY_PLANET_SIZE, 0.8);
+                planet->original_display_diameter = display_diameter;
+            }
+        }
+    }
+}
+
 void show_planet(struct gfx_context_t *ctxt, planet_t planet, int planetID)
 {
-    switch (planetID)
-    {
-    case 0:
-        // The sun is hard coded to not be too big
-        draw_full_circle(ctxt, planet.display_pos.x, planet.display_pos.y, planet.display_diameter / 10, planet.color);
-        break;
-    default:
-        draw_full_circle(ctxt, planet.display_pos.x, planet.display_pos.y, planet.display_diameter, planet.color);
-        break;
-    }
+    draw_full_circle(ctxt, planet.display_pos.x, planet.display_pos.y, planet.display_diameter, planet.color);
+    if(planetID != 0)
+        draw_circle(ctxt,planet.display_pos.x,planet.display_pos.y,planet.display_diameter,MAKE_COLOR(255,255,255));
 }
 
 vec2 convert_planet_pos_to_display_pos(int displayWidth, int displayHeight, vec2 planet_pos, vec2 system_size, vec2 camera_offset)

@@ -103,6 +103,7 @@ planet_t create_planet(double mass, double diameter, double eccentricity, double
 system_t create_system(double delta_t, vec2 visible_system_size);
 
 void show_planet(struct gfx_context_t *ctxt, planet_t planet, int planetID);
+void toggle_realist_mode(bool realist, system_t* system);
 void show_system(struct gfx_context_t *ctxt, system_t system, vec2 camera_offset);
 void update_system(system_t *system, double delta_t);
 void free_system(system_t *system);

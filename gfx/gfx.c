@@ -192,6 +192,40 @@ void draw_full_circle(struct gfx_context_t *ctxt, uint32_t c_column, uint32_t c_
         draw_full_circle(ctxt, c_column, c_row, r - 1, color);
 }
 
+void draw_circle(struct gfx_context_t *ctxt, uint32_t c_column, uint32_t c_row, uint32_t r, uint32_t color)
+{
+    int32_t x = 0, y = r, d = r - 1;
+    while (y >= x)
+    {
+        gfx_putpixel(ctxt, c_column + x, c_row + y, color);
+        gfx_putpixel(ctxt, c_column + y, c_row + x, color);
+        gfx_putpixel(ctxt, c_column - x, c_row + y, color);
+        gfx_putpixel(ctxt, c_column - y, c_row + x, color);
+
+        gfx_putpixel(ctxt, c_column + x, c_row - y, color);
+        gfx_putpixel(ctxt, c_column + y, c_row - x, color);
+        gfx_putpixel(ctxt, c_column - x, c_row - y, color);
+        gfx_putpixel(ctxt, c_column - y, c_row - x, color);
+
+        if ((2 * x) <= d)
+        {
+            d -= 2 * x + 1;
+            x += 1;
+        }
+        else if (d < (2 * (((int32_t)r) - y)))
+        {
+            d += 2 * y - 1;
+            y -= 1;
+        }
+        else
+        {
+            d -= 2 * (x - y + 1);
+            y -= 1;
+            x += 1;
+        }
+    }
+}
+
 void draw_line(struct gfx_context_t *ctxt, int x0, int y0, int x1, int y1, uint32_t color)
 {
     int dx = abs(x1 - x0), sx = x0 < x1 ? 1 : -1;

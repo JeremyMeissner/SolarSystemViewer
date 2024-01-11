@@ -106,6 +106,7 @@ int main()
 
         int camera_increment = 5;
         double zoom_increment = 0.1;
+        double realist_mode = true;
 
         int pressedKey = gfx_keypressed();
         if (pressedKey == 27)
@@ -142,6 +143,12 @@ int main()
                     if (solarSystem.system_visible_size.y > default_system_visible_size.y / 100)
                         solarSystem.system_visible_size.y -= solarSystem.system_visible_size.y * zoom_increment;
                     needToUpdatePlanetsDiameters = true;
+                    break;
+                case 'R':
+                case 'r':
+                        realist_mode = !realist_mode;
+                        //toggle_realist_mode(realist_mode,&system);
+                        needToUpdatePlanetsDiameters = true;
                     break;
                 case '0':
                     current_planet_focus = 0;
